@@ -1,7 +1,174 @@
 /* Zain Abedeen — portfolio */
 
+const REDUCE_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const MOUSE = { x: -500, y: -500 };
+
 /* footer year */
 document.getElementById('year').textContent = new Date().getFullYear();
+
+/* staggered hero entrance */
+(function () {
+  const risers = [...document.querySelectorAll('[data-rise]')];
+  if (REDUCE_MOTION) return;
+  risers.forEach(el => {
+    el.style.opacity = 0;
+    el.style.transform = 'translateY(26px)';
+    el.style.transition = 'opacity .8s var(--ease), transform .8s var(--ease)';
+  });
+  requestAnimationFrame(() => setTimeout(() => {
+    risers.forEach((el, i) => setTimeout(() => {
+      el.style.opacity = 1;
+      el.style.transform = 'none';
+    }, i * 120));
+  }, 80));
+})();
+
+/* rotating headline word */
+(function () {
+  const rot = document.getElementById('rotator');
+  if (!rot || REDUCE_MOTION) return;
+  const words = ['data', 'operations', 'reporting', 'risk'];
+  let i = 0;
+  setInterval(() => {
+    i = (i + 1) % words.length;
+    rot.style.opacity = 0;
+    rot.style.transform = 'translateY(-8px)';
+    setTimeout(() => {
+      rot.textContent = words[i];
+      rot.style.transform = 'translateY(8px)';
+      requestAnimationFrame(() => {
+        rot.style.opacity = 1;
+        rot.style.transform = 'none';
+      });
+    }, 320);
+  }, 2600);
+})();
+
+/* count-up metrics on scroll into view */
+(function () {
+  const reveals = [...document.querySelectorAll('[data-reveal]')];
+  if (!reveals.length) return;
+
+  const runCount = (el) => {
+    const target = +el.dataset.count;
+    const pre = el.dataset.prefix || '';
+    const suf = el.dataset.suffix || '';
+    if (REDUCE_MOTION) { el.textContent = pre + target + suf; return; }
+    const dur = 1500, start = performance.now();
+    const tick = (now) => {
+      const p = Math.min(1, (now - start) / dur);
+      const e = 1 - Math.pow(1 - p, 3);
+      el.textContent = pre + Math.round(target * e) + suf;
+      if (p < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  };
+
+  if (REDUCE_MOTION || !('IntersectionObserver' in window)) return;
+  reveals.forEach(el => {
+    el.style.opacity = 0;
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'opacity .7s var(--ease), transform .7s var(--ease)';
+  });
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(en => {
+      if (!en.isIntersecting) return;
+      const el = en.target;
+      el.style.opacity = 1;
+      el.style.transform = 'none';
+      const c = el.querySelector('[data-count]');
+      if (c && !c._done) { c._done = true; runCount(c); }
+      io.unobserve(el);
+    });
+  }, { threshold: 0.4 });
+  reveals.forEach(el => io.observe(el));
+})();
+
+/* nav scroll progress */
+(function () {
+  const bar = document.getElementById('scroll-progress');
+  if (!bar) return;
+  const onScroll = () => {
+    const h = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.width = (h > 0 ? (window.scrollY / h) * 100 : 0) + '%';
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+})();
+
+/* cursor spotlight + magnetic buttons */
+(function () {
+  if (REDUCE_MOTION) return;
+  const spot = document.getElementById('spotlight');
+  window.addEventListener('pointermove', (e) => {
+    MOUSE.x = e.clientX;
+    MOUSE.y = e.clientY;
+    if (spot) {
+      spot.style.setProperty('--mx', e.clientX + 'px');
+      spot.style.setProperty('--my', e.clientY + 'px');
+      spot.style.opacity = 1;
+    }
+  }, { passive: true });
+
+  document.querySelectorAll('[data-magnetic]').forEach(btn => {
+    btn.style.transition = 'transform .25s var(--ease)';
+    btn.addEventListener('pointermove', (e) => {
+      const r = btn.getBoundingClientRect();
+      const dx = (e.clientX - (r.left + r.width / 2)) * 0.28;
+      const dy = (e.clientY - (r.top + r.height / 2)) * 0.4;
+      btn.style.transform = `translate(${dx}px, ${dy}px)`;
+    });
+    btn.addEventListener('pointerleave', () => { btn.style.transform = 'none'; });
+  });
+})();
+
+/* animated dot-grid canvas */
+(function () {
+  const canvas = document.getElementById('fx-grid');
+  if (!canvas || REDUCE_MOTION) return;
+  const ctx = canvas.getContext('2d');
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  const gap = 42;
+  let w, h, dots = [];
+
+  const build = () => {
+    w = canvas.clientWidth;
+    h = canvas.clientHeight;
+    canvas.width = w * dpr;
+    canvas.height = h * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    dots = [];
+    for (let y = gap; y < h; y += gap) {
+      for (let x = gap; x < w; x += gap) {
+        dots.push({ x, y, ph: Math.random() * Math.PI * 2 });
+      }
+    }
+  };
+  build();
+  window.addEventListener('resize', build);
+
+  const t0 = performance.now();
+  const draw = (now) => {
+    const tt = (now - t0) / 1000;
+    ctx.clearRect(0, 0, w, h);
+    for (const d of dots) {
+      const dx = d.x - MOUSE.x, dy = d.y - MOUSE.y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      const near = Math.max(0, 1 - dist / 160);
+      const twinkle = 0.18 + 0.12 * Math.sin(tt * 1.4 + d.ph);
+      const a = Math.min(0.9, twinkle + near * 0.85);
+      const r = 1.1 + near * 2.2;
+      ctx.beginPath();
+      ctx.arc(d.x, d.y, r, 0, Math.PI * 2);
+      ctx.fillStyle = near > 0.05
+        ? `rgba(90,212,200,${a})`
+        : `rgba(143,160,184,${a * 0.5})`;
+      ctx.fill();
+    }
+    requestAnimationFrame(draw);
+  };
+  requestAnimationFrame(draw);
+})();
 
 /* mobile menu */
 (function () {

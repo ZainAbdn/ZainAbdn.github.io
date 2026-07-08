@@ -15,6 +15,10 @@
 
   <a href="#main-content" class="skip-link">Skip to main content</a>
 
+  <!-- ambient fx layers (skipped under prefers-reduced-motion) -->
+  <canvas id="fx-grid" aria-hidden="true"></canvas>
+  <div id="spotlight" aria-hidden="true"></div>
+
   <!-- NAV -->
   <header class="nav" id="nav">
     <div class="container nav-inner">
@@ -31,6 +35,7 @@
         <span></span><span></span>
       </button>
     </div>
+    <div class="nav-progress" id="scroll-progress" aria-hidden="true"></div>
   </header>
 
   <!-- MOBILE MENU -->
@@ -48,14 +53,14 @@
     <!-- HERO -->
     <section class="hero" id="top">
       <div class="container">
-        <p class="eyebrow reveal">Data Analytics &amp; Engineering Consultant · London, UK</p>
-        <h1 class="hero-headline reveal" style="--d:.08s">Clear answers from<br><em>complex data.</em></h1>
-        <p class="hero-lead reveal" style="--d:.16s">I help organisations turn scattered operational data into reliable pipelines, clear executive reporting, and measurable savings — with security and governance built in from the start.</p>
-        <div class="hero-ctas reveal" style="--d:.24s">
-          <a href="#book" class="btn btn-primary">Book a consultation</a>
-          <a href="#work" class="btn btn-quiet">View selected work</a>
+        <p class="eyebrow" data-rise>Data Analytics &amp; Engineering Consultant · London, UK</p>
+        <h1 class="hero-headline" data-rise>Clear answers from<br><em>complex <span id="rotator">data</span>.</em></h1>
+        <p class="hero-lead" data-rise>I help organisations turn scattered operational data into reliable pipelines, clear executive reporting, and measurable savings — with security and governance built in from the start.</p>
+        <div class="hero-ctas" data-rise>
+          <a href="#book" class="btn btn-primary" data-magnetic>Book a consultation</a>
+          <a href="#work" class="btn btn-quiet" data-magnetic>View selected work</a>
         </div>
-        <p class="hero-cred reveal" style="--d:.32s">MSc Cyber Security (Distinction), University of Surrey &nbsp;·&nbsp; 4+ years with US &amp; UK clients</p>
+        <p class="hero-cred" data-rise>MSc Cyber Security (Distinction), University of Surrey &nbsp;·&nbsp; 4+ years with US &amp; UK clients</p>
       </div>
     </section>
 
@@ -63,21 +68,21 @@
     <section class="results" aria-label="Selected results">
       <div class="container">
         <dl class="results-grid">
-          <div class="result reveal">
-            <dt>$20K</dt>
-            <dd>annual infrastructure savings</dd>
+          <div class="result" data-reveal>
+            <dt data-count="20" data-prefix="$" data-suffix="K">$20K</dt>
+            <dd>annual infrastructure savings delivered</dd>
           </div>
-          <div class="result reveal" style="--d:.08s">
-            <dt>15+ hrs</dt>
-            <dd>manual reporting recovered monthly</dd>
+          <div class="result" data-reveal>
+            <dt data-count="80" data-suffix="%">80%</dt>
+            <dd>faster deployments via zero-touch pipelines</dd>
           </div>
-          <div class="result reveal" style="--d:.16s">
-            <dt>80%</dt>
-            <dd>faster cloud deployments</dd>
+          <div class="result" data-reveal>
+            <dt data-count="15" data-suffix="h+">15h+</dt>
+            <dd>reclaimed each month through automation</dd>
           </div>
-          <div class="result reveal" style="--d:.24s">
-            <dt>100+</dt>
-            <dd>users secured &amp; governed</dd>
+          <div class="result" data-reveal>
+            <dt data-count="100" data-suffix="+">100+</dt>
+            <dd>user environment secured end to end</dd>
           </div>
         </dl>
       </div>
