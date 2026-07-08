@@ -3,524 +3,202 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Zain Abedeen — DevSecOps Engineer & Cyber Security MSc. Building secure cloud systems in London, UK.">
-  <title>Zain Abedeen · DevSecOps</title>
+  <meta name="description" content="Zain Abedeen — Data Analytics & Engineering Consultant. Helping organisations turn operational data into reliable pipelines, clear reporting, and measurable savings. London, UK.">
+  <title>Zain Abedeen — Data Analytics &amp; Engineering Consultant</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-  <!-- ░ SKIP LINK (a11y) ░ -->
   <a href="#main-content" class="skip-link">Skip to main content</a>
 
-  <!-- ░ BACKGROUND CANVAS ░ -->
-  <canvas id="grid-canvas" aria-hidden="true"></canvas>
-
-  <!-- ░ NAV ░ -->
-  <nav class="nav" id="nav" aria-label="Primary navigation">
-    <div class="nav-inner">
-      <a href="#hero" class="nav-logo">
-        <span class="logo-bracket">[</span>ZA<span class="logo-bracket">]</span>
-      </a>
-      <ul class="nav-links">
-        <li><a href="#education" class="nav-link" data-section="education">Education</a></li>
-        <li><a href="#experience" class="nav-link" data-section="experience">Experience</a></li>
-        <li><a href="#projects" class="nav-link" data-section="projects">Projects</a></li>
-        <li><a href="#skills" class="nav-link" data-section="skills">Skills</a></li>
-        <li><a href="#contact" class="nav-link" data-section="contact">Contact</a></li>
-      </ul>
-      <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobile-menu">
-        <span></span><span></span><span></span>
+  <!-- NAV -->
+  <header class="nav" id="nav">
+    <div class="container nav-inner">
+      <a href="#top" class="wordmark">Zain&nbsp;Abedeen</a>
+      <nav aria-label="Primary navigation">
+        <ul class="nav-links">
+          <li><a href="#services" class="nav-link" data-section="services">Services</a></li>
+          <li><a href="#work" class="nav-link" data-section="work">Work</a></li>
+          <li><a href="#about" class="nav-link" data-section="about">About</a></li>
+          <li><a href="#book" class="nav-link nav-link-cta" data-section="book">Book a Call</a></li>
+        </ul>
+      </nav>
+      <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobile-menu">
+        <span></span><span></span>
       </button>
     </div>
-    <div class="nav-progress" id="nav-progress"></div>
-  </nav>
+  </header>
 
-  <!-- ░ MOBILE MENU ░ -->
-  <div class="mobile-menu" id="mobile-menu" aria-hidden="true" role="dialog" aria-label="Navigation menu">
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
     <ul>
-      <li><a href="#education" class="mob-link">Education</a></li>
-      <li><a href="#experience" class="mob-link">Experience</a></li>
-      <li><a href="#projects" class="mob-link">Projects</a></li>
-      <li><a href="#skills" class="mob-link">Skills</a></li>
-      <li><a href="#contact" class="mob-link">Contact</a></li>
+      <li><a href="#services" class="mob-link">Services</a></li>
+      <li><a href="#work" class="mob-link">Work</a></li>
+      <li><a href="#about" class="mob-link">About</a></li>
+      <li><a href="#book" class="mob-link">Book a Call</a></li>
     </ul>
   </div>
 
-  <!-- ░ HERO ░ -->
-  <section id="hero" class="hero">
-    <div class="hero-inner container">
-      <div class="hero-text">
-        <div class="hero-prompt">
-          <span class="prompt-sym">▶</span>
-          <span class="prompt-path">~/zainabedeen</span>
-          <span class="prompt-cursor">_</span>
-        </div>
-        <h1 class="hero-name">Zain<br><em>Abedeen</em></h1>
-        <div class="hero-title-wrap">
-          <span class="hero-title-static">[ </span>
-          <span class="hero-title-dynamic" id="typed-title"></span>
-          <span class="type-cursor">|</span>
-          <span class="hero-title-static"> ]</span>
-        </div>
-        <p class="hero-bio">I build <span class="accent-g">secure cloud systems</span>, automate operations, and turn complex security and data problems into <span class="accent-c">practical outcomes</span>.</p>
-        <div class="hero-stats">
-          <div class="stat-chip">
-            <span class="stat-num accent-c">$20K</span>
-            <span class="stat-lbl">Annual Savings</span>
-          </div>
-          <div class="stat-chip">
-            <span class="stat-num accent-g">80%</span>
-            <span class="stat-lbl">Deploy Faster</span>
-          </div>
-          <div class="stat-chip">
-            <span class="stat-num accent-c">100+</span>
-            <span class="stat-lbl">Users Secured</span>
-          </div>
-          <div class="stat-chip">
-            <span class="stat-num accent-g">15h+</span>
-            <span class="stat-lbl">Saved / Month</span>
-          </div>
-        </div>
-        <div class="hero-ctas">
-          <a href="#contact" class="btn btn-primary">Get in Touch</a>
-          <a href="#experience" class="btn btn-ghost">View Work</a>
-        </div>
-      </div>
-
-      <div class="hero-avatar-wrap">
-        <div class="avatar-rings" aria-hidden="true">
-          <div class="ring ring-1"></div>
-          <div class="ring ring-2"></div>
-          <div class="ring ring-3"></div>
-        </div>
-        <div class="avatar-orbs" aria-hidden="true">
-          <div class="orb orb-1"><span>AWS</span></div>
-          <div class="orb orb-2"><span>PY</span></div>
-          <div class="orb orb-3"><span>SEC</span></div>
-          <div class="orb orb-4"><span>☁</span></div>
-        </div>
-        <div class="avatar-circle">
-          <div class="avatar-initials">ZA</div>
-          <div class="avatar-status">
-            <span class="status-dot"></span>
-            <span>Available</span>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="hero-scroll-hint" aria-hidden="true">
-      <span class="scroll-line"></span>
-      <span class="scroll-text">scroll</span>
-    </div>
-  </section>
-
   <main id="main-content">
 
-    <!-- ░ EDUCATION ░ -->
-    <section class="section" id="education">
+    <!-- HERO -->
+    <section class="hero" id="top">
       <div class="container">
-        <div class="section-header reveal">
-          <span class="section-tag">01 /</span>
-          <h2 class="section-title">Education</h2>
+        <p class="eyebrow reveal">Data Analytics &amp; Engineering Consultant · London, UK</p>
+        <h1 class="hero-headline reveal" style="--d:.08s">Clear answers from<br><em>complex data.</em></h1>
+        <p class="hero-lead reveal" style="--d:.16s">I help organisations turn scattered operational data into reliable pipelines, clear executive reporting, and measurable savings — with security and governance built in from the start.</p>
+        <div class="hero-ctas reveal" style="--d:.24s">
+          <a href="#book" class="btn btn-primary">Book a consultation</a>
+          <a href="#work" class="btn btn-quiet">View selected work</a>
         </div>
+        <p class="hero-cred reveal" style="--d:.32s">MSc Cyber Security (Distinction), University of Surrey &nbsp;·&nbsp; 4+ years with US &amp; UK clients</p>
+      </div>
+    </section>
 
-        <div class="edu-grid">
-          <article class="glass-card reveal" style="--delay:.1s">
-            <div class="card-accent-line"></div>
-            <div class="edu-badge">MSc</div>
-            <h3>Cyber Security<br><span class="distinction-badge">Distinction</span></h3>
-            <p class="card-meta">University of Surrey &nbsp;·&nbsp; Guildford, UK &nbsp;·&nbsp; 2025 – 2026</p>
-            <p class="card-sub accent-c">NCSC-certified programme</p>
-            <ul class="card-list">
-              <li>Risk Management, Security Architecture, Digital Forensics</li>
-              <li>ISO/IEC 27001, ISO 27005, CIS Controls, NIST RMF, PCI-DSS</li>
-            </ul>
-            <div class="tag-row">
-              <span class="tag">IBM Networks</span>
-              <span class="tag">KPMG Analytics</span>
-              <span class="tag">NCSC Certified</span>
-            </div>
+    <!-- RESULTS -->
+    <section class="results" aria-label="Selected results">
+      <div class="container">
+        <dl class="results-grid">
+          <div class="result reveal">
+            <dt>$20K</dt>
+            <dd>annual infrastructure savings</dd>
+          </div>
+          <div class="result reveal" style="--d:.08s">
+            <dt>15+ hrs</dt>
+            <dd>manual reporting recovered monthly</dd>
+          </div>
+          <div class="result reveal" style="--d:.16s">
+            <dt>80%</dt>
+            <dd>faster cloud deployments</dd>
+          </div>
+          <div class="result reveal" style="--d:.24s">
+            <dt>100+</dt>
+            <dd>users secured &amp; governed</dd>
+          </div>
+        </dl>
+      </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section class="section" id="services">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="section-no">01</span>
+          <h2 class="section-title">Services</h2>
+        </div>
+        <div class="services-grid">
+          <article class="service reveal" style="--d:.05s">
+            <h3>Analytics &amp; Business Intelligence</h3>
+            <p>Executive dashboards and reporting that leadership actually uses. Power BI development, KPI design, automated monthly reporting, and row-level security so every stakeholder sees exactly what they should — and nothing more.</p>
           </article>
-
-          <article class="glass-card reveal" style="--delay:.2s">
-            <div class="card-accent-line accent-line-g"></div>
-            <div class="edu-badge edu-badge-g">BSc</div>
-            <h3>Management Science<br><span class="minor-badge">Minor: Computer Science</span></h3>
-            <p class="card-meta">LUMS · Lahore, Pakistan · 2019 – 2023</p>
-            <p class="card-sub accent-g">Lahore University of Management Sciences</p>
-            <ul class="card-list">
-              <li>Machine Learning, Business Analytics, Data Mining</li>
-              <li>Probability & Statistics, Predictive Modelling</li>
-            </ul>
-            <div class="tag-row">
-              <span class="tag tag-g">Python</span>
-              <span class="tag tag-g">R</span>
-              <span class="tag tag-g">ML</span>
-              <span class="tag tag-g">Statistics</span>
-            </div>
+          <article class="service reveal" style="--d:.12s">
+            <h3>Data Engineering &amp; Automation</h3>
+            <p>Reliable pipelines that remove manual work. API integrations, SQL data modelling, and Microsoft 365 workflow automation with Power Automate — replacing hours of monthly collation with processes that run themselves.</p>
+          </article>
+          <article class="service reveal" style="--d:.19s">
+            <h3>Secure Cloud Data Delivery</h3>
+            <p>Data work that stands up to scrutiny. With a background in cloud security engineering and an NCSC-certified MSc, I deliver analytics on AWS and Microsoft 365 with least-privilege access, governance, and compliance considered from day one.</p>
           </article>
         </div>
       </div>
     </section>
 
-    <!-- ░ EXPERIENCE ░ -->
-    <section class="section" id="experience">
+    <!-- SELECTED WORK -->
+    <section class="section" id="work">
       <div class="container">
-        <div class="section-header reveal">
-          <span class="section-tag">02 /</span>
-          <h2 class="section-title">Experience</h2>
+        <div class="section-head reveal">
+          <span class="section-no">02</span>
+          <h2 class="section-title">Selected Work</h2>
         </div>
-
-        <div class="timeline">
-          <div class="timeline-line"></div>
-
-          <!-- Job 1 -->
-          <div class="timeline-item reveal" style="--delay:.1s">
-            <div class="timeline-dot"></div>
-            <div class="timeline-date">May 2024 – Present</div>
-            <div class="glass-card timeline-card">
-              <div class="card-accent-line"></div>
-              <div class="job-header">
-                <div>
-                  <h3>DevSecOps Engineer</h3>
-                  <p class="card-meta">Oppen Group LLC &nbsp;·&nbsp; Remote, New Jersey USA</p>
-                </div>
-                <span class="job-badge active-badge">Current</span>
-              </div>
-              <ul class="card-list">
-                <li>Saved <strong class="accent-c">$20K annually</strong> by optimizing AWS and M365 infrastructure with cost-aware tagging.</li>
-                <li>Secured <strong class="accent-g">100+ user environment</strong> with Conditional Access, Intune MDM, Defender for Office 365.</li>
-                <li>Hardened AWS posture across <strong class="accent-c">EC2, S3, VPC, IAM</strong> with threat detection and least-privilege controls.</li>
-              </ul>
-              <div class="tag-row">
-                <span class="tag">AWS</span>
-                <span class="tag">Intune MDM</span>
-                <span class="tag">Defender 365</span>
-                <span class="tag">IAM</span>
-                <span class="tag">DevSecOps</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Job 2 -->
-          <div class="timeline-item reveal" style="--delay:.15s">
-            <div class="timeline-dot dot-g"></div>
-            <div class="timeline-date">Sep 2024 – Sep 2025</div>
-            <div class="glass-card timeline-card">
-              <div class="card-accent-line accent-line-g"></div>
-              <div class="job-header">
-                <div>
-                  <h3>M365 Data Automation Consultant</h3>
-                  <p class="card-meta">EFI Global &nbsp;·&nbsp; Remote, Texas USA</p>
-                </div>
-              </div>
-              <ul class="card-list">
-                <li>Automated monthly reporting with Power BI dashboards, saving <strong class="accent-g">15+ hours/month</strong>.</li>
-                <li>Built M365 Lists + Power Automate + Teams workflow, saving <strong class="accent-g">7+ hours/week</strong>.</li>
-                <li>Implemented row-level security across dashboards for role-appropriate data access.</li>
-              </ul>
-              <div class="tag-row">
-                <span class="tag tag-g">Power BI</span>
-                <span class="tag tag-g">Power Automate</span>
-                <span class="tag tag-g">SQL Server</span>
-                <span class="tag tag-g">SharePoint</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Job 3 -->
-          <div class="timeline-item reveal" style="--delay:.2s">
-            <div class="timeline-dot"></div>
-            <div class="timeline-date">Sep 2023 – May 2024</div>
-            <div class="glass-card timeline-card">
-              <div class="card-accent-line"></div>
-              <div class="job-header">
-                <div>
-                  <h3>Data Consultant</h3>
-                  <p class="card-meta">Clearwater &nbsp;·&nbsp; Remote, Tennessee USA</p>
-                </div>
-              </div>
-              <ul class="card-list">
-                <li>Built end-to-end incident tracking dashboard connecting <strong class="accent-c">ServiceNow REST APIs</strong> to Power BI & Excel.</li>
-                <li>Enabled dynamic executive reporting with date/client filtering for compliance outputs.</li>
-              </ul>
-              <div class="tag-row">
-                <span class="tag">ServiceNow</span>
-                <span class="tag">REST APIs</span>
-                <span class="tag">Power BI</span>
-                <span class="tag">Excel</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Job 4 -->
-          <div class="timeline-item reveal" style="--delay:.25s">
-            <div class="timeline-dot dot-g"></div>
-            <div class="timeline-date">Dec 2022 – Sep 2023</div>
-            <div class="glass-card timeline-card">
-              <div class="card-accent-line accent-line-g"></div>
-              <div class="job-header">
-                <div>
-                  <h3>Data Scientist</h3>
-                  <p class="card-meta">Unison Infrastructure &nbsp;·&nbsp; Lahore, Pakistan</p>
-                </div>
-              </div>
-              <ul class="card-list">
-                <li>Reduced data inconsistency by <strong class="accent-g">~40%</strong> with FuzzyWuzzy matching and GeoPandas spatial analysis.</li>
-                <li>Delivered interactive reporting via Excel Power Query and VBA for management decision-making.</li>
-              </ul>
-              <div class="tag-row">
-                <span class="tag tag-g">Python</span>
-                <span class="tag tag-g">GeoPandas</span>
-                <span class="tag tag-g">FuzzyWuzzy</span>
-                <span class="tag tag-g">VBA</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Job 5 -->
-          <div class="timeline-item reveal" style="--delay:.3s">
-            <div class="timeline-dot"></div>
-            <div class="timeline-date">Jan 2022 – Dec 2022</div>
-            <div class="glass-card timeline-card">
-              <div class="card-accent-line"></div>
-              <div class="job-header">
-                <div>
-                  <h3>Teaching Assistant</h3>
-                  <p class="card-meta">LUMS &nbsp;·&nbsp; Lahore, Pakistan</p>
-                </div>
-              </div>
-              <ul class="card-list">
-                <li>Taught <strong class="accent-c">50+ students</strong> weekly in Python/R predictive modeling.</li>
-                <li>Developed rubrics used across two cohorts.</li>
-              </ul>
-              <div class="tag-row">
-                <span class="tag">Python</span>
-                <span class="tag">R</span>
-                <span class="tag">Predictive Modelling</span>
-              </div>
-            </div>
-          </div>
+        <p class="work-lead reveal">A few engagements that show how I work — the problem walked in the door, what I built, and what changed. Work samples are being added as client materials are cleared for sharing.</p>
+        <div id="work-list">
+          <noscript><p>Case studies require JavaScript to display. Please see the About section, or <a href="mailto:zain.abedeen@hotmail.com">email me</a> for a portfolio.</p></noscript>
         </div>
       </div>
     </section>
 
-    <!-- ░ PROJECTS ░ -->
-    <section class="section" id="projects">
+    <!-- ABOUT -->
+    <section class="section" id="about">
       <div class="container">
-        <div class="section-header reveal">
-          <span class="section-tag">03 /</span>
-          <h2 class="section-title">Key Project</h2>
+        <div class="section-head reveal">
+          <span class="section-no">03</span>
+          <h2 class="section-title">About</h2>
         </div>
 
-        <article class="glass-card project-card reveal">
-          <div class="card-accent-line"></div>
-          <div class="project-inner">
-            <div class="project-icon">
-              <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
-                <rect x="4" y="18" width="32" height="4" rx="2" fill="currentColor" opacity=".3"/>
-                <rect x="14" y="8" width="12" height="24" rx="2" fill="currentColor" opacity=".2"/>
-                <circle cx="20" cy="20" r="5" fill="currentColor"/>
-                <path d="M4 20 L8 16 L8 24 Z" fill="currentColor" opacity=".7"/>
-                <path d="M36 20 L32 16 L32 24 Z" fill="currentColor" opacity=".7"/>
-              </svg>
-            </div>
-            <div class="project-content">
-              <div class="project-title-row">
-                <h3>AWS Zero-Touch CloudFormation Deployment</h3>
-                <div class="project-metrics">
-                  <span class="metric-pill"><strong class="accent-g">80%</strong> faster deploys</span>
-                  <span class="metric-pill"><strong class="accent-c">Zero</strong> config drift</span>
-                </div>
-              </div>
-              <ul class="card-list">
-                <li>Engineered one-click CI/CD pipeline integrating <strong class="accent-c">Git, CloudFormation, and IAM</strong> to provision secure AWS infrastructure.</li>
-                <li>Reduced deployment time by <strong class="accent-g">80%</strong> while eliminating configuration drift across environments.</li>
-              </ul>
-              <div class="tag-row">
-                <span class="tag">AWS CloudFormation</span>
-                <span class="tag">CI/CD</span>
-                <span class="tag">IAM</span>
-                <span class="tag">Git</span>
-                <span class="tag">IaC</span>
-              </div>
+        <div class="about-grid">
+          <div class="about-bio reveal">
+            <p>I'm a data analytics and engineering consultant based in London. Over the past four years I've worked with consultancies and operations teams across the US and UK, building the reporting, automation, and cloud infrastructure that lets them make decisions from data they can trust.</p>
+            <p>What sets my work apart is the security lens I bring to it. Alongside client delivery, I've served as a cloud security engineer and hold an NCSC-certified MSc in Cyber Security — so the dashboards, pipelines, and environments I build are governed, access-controlled, and audit-ready by default.</p>
+          </div>
+
+          <div class="about-side reveal" style="--d:.1s">
+            <div class="about-block">
+              <h4>Toolkit</h4>
+              <p><span class="cap-label">Analytics &amp; Reporting</span>Power BI, Power Query, Excel, KPI design, row-level security</p>
+              <p><span class="cap-label">Data Engineering</span>SQL, Python (Pandas, GeoPandas, scikit-learn), R, REST APIs, Power Automate</p>
+              <p><span class="cap-label">Cloud &amp; Governance</span>AWS (EC2, S3, IAM, CloudFormation), Microsoft 365, Intune, ISO 27001, NIST</p>
             </div>
           </div>
-        </article>
-      </div>
-    </section>
-
-    <!-- ░ SKILLS ░ -->
-    <section class="section" id="skills">
-      <div class="container">
-        <div class="section-header reveal">
-          <span class="section-tag">04 /</span>
-          <h2 class="section-title">Core Competencies</h2>
         </div>
 
-        <div class="skills-grid">
-          <div class="skill-group glass-card reveal" style="--delay:.05s">
-            <div class="skill-group-icon">🛡</div>
-            <h4 class="skill-group-title">Frameworks</h4>
-            <div class="tag-row">
-              <span class="tag">NIST CSF</span>
-              <span class="tag">CIS Controls</span>
-              <span class="tag">ISO 27001</span>
-              <span class="tag">NIST RMF</span>
-              <span class="tag">PCI-DSS</span>
-              <span class="tag">ISO 27005</span>
-            </div>
-          </div>
-
-          <div class="skill-group glass-card reveal" style="--delay:.1s">
-            <div class="skill-group-icon">☁️</div>
-            <h4 class="skill-group-title">Cloud & Infrastructure</h4>
-            <div class="tag-row">
-              <span class="tag tag-c">AWS EC2</span>
-              <span class="tag tag-c">S3</span>
-              <span class="tag tag-c">VPC</span>
-              <span class="tag tag-c">IAM</span>
-              <span class="tag tag-c">CloudFormation</span>
-              <span class="tag tag-c">Azure</span>
-              <span class="tag tag-c">M365</span>
-            </div>
-          </div>
-
-          <div class="skill-group glass-card reveal" style="--delay:.15s">
-            <div class="skill-group-icon">🔐</div>
-            <h4 class="skill-group-title">Security Tooling</h4>
-            <div class="tag-row">
-              <span class="tag">Microsoft Defender</span>
-              <span class="tag">Intune MDM</span>
-              <span class="tag">Conditional Access</span>
-              <span class="tag">Defender 365</span>
-            </div>
-          </div>
-
-          <div class="skill-group glass-card reveal" style="--delay:.2s">
-            <div class="skill-group-icon">⚡</div>
-            <h4 class="skill-group-title">Automation & Data</h4>
-            <div class="tag-row">
-              <span class="tag tag-g">Power Platform</span>
-              <span class="tag tag-g">Power BI</span>
-              <span class="tag tag-g">Power Automate</span>
-              <span class="tag tag-g">SQL</span>
-              <span class="tag tag-g">REST APIs</span>
-              <span class="tag tag-g">Git</span>
-            </div>
-          </div>
-
-          <div class="skill-group glass-card reveal" style="--delay:.25s">
-            <div class="skill-group-icon">💻</div>
-            <h4 class="skill-group-title">Programming</h4>
-            <div class="tag-row">
-              <span class="tag tag-c">Python</span>
-              <span class="tag tag-c">Pandas</span>
-              <span class="tag tag-c">Scikit-learn</span>
-              <span class="tag tag-c">GeoPandas</span>
-              <span class="tag tag-c">R</span>
-              <span class="tag tag-c">SQL</span>
-              <span class="tag tag-c">VBA</span>
-            </div>
-          </div>
-
-          <div class="skill-group glass-card reveal" style="--delay:.3s">
-            <div class="skill-group-icon">🤝</div>
-            <h4 class="skill-group-title">Leadership</h4>
-            <div class="tag-row">
-              <span class="tag tag-g">Client Communication</span>
-              <span class="tag tag-g">Technical Writing</span>
-              <span class="tag tag-g">Cross-functional</span>
-              <span class="tag tag-g">Mentoring</span>
-            </div>
-          </div>
+        <div class="bg-strip reveal" style="--d:.15s">
+          <h4 class="bg-strip-title">Background</h4>
+          <ul class="bg-lines">
+            <li><span>DevSecOps Engineer</span> · Oppen Group LLC <span class="muted">· 2024–present</span></li>
+            <li><span>M365 Data &amp; Automation Consultant</span> · EFI Global <span class="muted">· 2024–2025</span></li>
+            <li><span>Data Consultant</span> · Clearwater <span class="muted">· 2023–2024</span></li>
+            <li><span>Data Scientist</span> · Unison Infrastructure <span class="muted">· 2022–2023</span></li>
+            <li><span>Teaching Assistant</span> · LUMS <span class="muted">· 2022</span></li>
+            <li><span>MSc Cyber Security, Distinction</span> · University of Surrey, NCSC-certified <span class="muted">· 2025–2026</span></li>
+            <li><span>BSc Management Science, CS minor</span> · LUMS <span class="muted">· 2019–2023</span></li>
+          </ul>
         </div>
       </div>
     </section>
 
-    <!-- ░ CONTACT ░ -->
-    <section class="section" id="contact">
+    <!-- BOOK -->
+    <section class="section section-book" id="book">
       <div class="container">
-        <div class="section-header reveal">
-          <span class="section-tag">05 /</span>
-          <h2 class="section-title">Get In Touch</h2>
+        <div class="section-head reveal">
+          <span class="section-no">04</span>
+          <h2 class="section-title">Book a Call</h2>
         </div>
+        <p class="book-lead reveal">Considering a project, or just want a second opinion on your data setup? Pick a time below for a free 30-minute introductory call.</p>
 
-        <div class="contact-grid">
-          <div class="contact-left reveal">
-            <p class="contact-lead">Open to DevSecOps, cloud security, and data engineering roles. Let's build something secure together.</p>
-            <div class="contact-links">
-              <a href="mailto:zain.abedeen@hotmail.com" class="contact-item">
-                <span class="contact-icon">✉</span>
-                <span>zain.abedeen@hotmail.com</span>
-              </a>
-              <a href="tel:+447448270585" class="contact-item">
-                <span class="contact-icon">📞</span>
-                <span>+44 7448 270585</span>
-              </a>
-              <a href="https://linkedin.com/in/zainabedeen" target="_blank" rel="noreferrer" class="contact-item">
-                <span class="contact-icon">in</span>
-                <span>linkedin.com/in/zainabedeen</span>
-              </a>
-              <div class="contact-item no-link">
-                <span class="contact-icon">📍</span>
-                <span>London, UK</span>
-              </div>
-            </div>
-          </div>
-          <div class="contact-right reveal" style="--delay:.15s">
-            <div class="terminal-block">
-              <div class="terminal-bar">
-                <span class="t-dot t-red"></span>
-                <span class="t-dot t-yellow"></span>
-                <span class="t-dot t-green"></span>
-                <span class="t-title">zain@portfolio ~ </span>
-              </div>
-              <div class="terminal-body">
-                <p><span class="t-prompt">$</span> <span class="t-cmd">whoami</span></p>
-                <p class="t-out">zain.abedeen — devsecops engineer</p>
-                <p><span class="t-prompt">$</span> <span class="t-cmd">location</span></p>
-                <p class="t-out">london, uk 🇬🇧</p>
-                <p><span class="t-prompt">$</span> <span class="t-cmd">status</span></p>
-                <p class="t-out accent-g">✓ available for opportunities</p>
-                <p><span class="t-prompt">$</span> <span class="t-cmd">expertise</span></p>
-                <p class="t-out">devsecops · cloud security · data</p>
-                <p class="t-blink"><span class="t-prompt">$</span> <span class="type-cursor">▌</span></p>
-              </div>
-            </div>
-          </div>
+        <!-- TODO: replace the data-url below with your real Calendly link once your account is set up -->
+        <div class="calendly-wrap reveal" style="--d:.1s">
+          <div class="calendly-inline-widget" data-url="https://calendly.com/zain-abedeen?hide_gdpr_banner=1&background_color=101e33&text_color=f2f6fa&primary_color=3fbfb2" style="min-width:320px;height:700px;"></div>
         </div>
+        <p class="book-fallback reveal">Prefer email? Write to <a href="mailto:zain.abedeen@hotmail.com">zain.abedeen@hotmail.com</a> and I'll reply within one business day.</p>
       </div>
     </section>
 
   </main>
 
-  <!-- ░ FOOTER ░ -->
-  <footer class="site-footer">
+  <!-- FOOTER -->
+  <footer class="footer">
     <div class="container">
-      <div class="footer-inner">
-        <div class="footer-logo">
-          <span class="logo-bracket">[</span>ZA<span class="logo-bracket">]</span>
+      <div class="footer-grid">
+        <div class="footer-col">
+          <p class="wordmark">Zain Abedeen</p>
+          <p class="muted">Data Analytics &amp; Engineering Consultant<br>London, United Kingdom</p>
         </div>
-        <p class="footer-copy">© <span id="year"></span> Zain Abedeen. Built with intent.</p>
-        <div class="footer-links">
-          <a href="mailto:zain.abedeen@hotmail.com" aria-label="Email">✉</a>
-          <a href="https://linkedin.com/in/zainabedeen" target="_blank" rel="noreferrer" aria-label="LinkedIn">in</a>
+        <div class="footer-col">
+          <a href="mailto:zain.abedeen@hotmail.com">zain.abedeen@hotmail.com</a>
+          <a href="tel:+447448270585">+44 7448 270585</a>
+          <a href="https://linkedin.com/in/zainabedeen" target="_blank" rel="noreferrer">LinkedIn</a>
         </div>
       </div>
+      <p class="footer-copy">© <span id="year"></span> Zain Abedeen. All rights reserved.</p>
     </div>
   </footer>
 
-  <!-- ░ FAB: Download CV ░ -->
-  <a href="#" class="fab-cv" aria-label="Download CV" role="button">
-    <span class="fab-icon">↓</span>
-    <span class="fab-label">CV</span>
-  </a>
-
+  <script src="https://assets.calendly.com/assets/external/widget.js" async></script>
+  <script src="portfolio.js"></script>
   <script src="main.js"></script>
 </body>
 </html>

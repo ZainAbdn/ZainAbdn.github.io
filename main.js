@@ -1,182 +1,115 @@
-/* ═══════════════════════════════════════════════
-   ZAIN ABEDEEN · Portfolio JS
-   ═══════════════════════════════════════════════ */
+/* Zain Abedeen — portfolio */
 
-/* ── YEAR ────────────────────────────────────── */
+/* footer year */
 document.getElementById('year').textContent = new Date().getFullYear();
 
-/* ── GRID CANVAS BACKGROUND ──────────────────── */
+/* mobile menu */
 (function () {
-  const canvas = document.getElementById('grid-canvas');
-  const ctx = canvas.getContext('2d');
-  let W, H, dots = [];
-  const COLS = 40;
+  const toggle = document.getElementById('menu-toggle');
+  const menu = document.getElementById('mobile-menu');
 
-  function resize() {
-    W = canvas.width  = window.innerWidth;
-    H = canvas.height = window.innerHeight;
-    initDots();
+  function close() {
+    menu.classList.remove('open');
+    menu.setAttribute('aria-hidden', 'true');
+    toggle.setAttribute('aria-expanded', 'false');
   }
 
-  function initDots() {
-    dots = [];
-    const cellW = W / COLS;
-    const cellH = cellW;
-    const rows  = Math.ceil(H / cellH) + 2;
-    for (let r = 0; r < rows; r++) {
-      for (let c = 0; c < COLS; c++) {
-        dots.push({
-          x: c * cellW,
-          y: r * cellH,
-          base: Math.random(),
-          phase: Math.random() * Math.PI * 2
-        });
-      }
-    }
-  }
+  toggle.addEventListener('click', () => {
+    const open = menu.classList.toggle('open');
+    menu.setAttribute('aria-hidden', String(!open));
+    toggle.setAttribute('aria-expanded', String(open));
+  });
 
-  let t = 0;
-  function draw() {
-    ctx.clearRect(0, 0, W, H);
-    t += 0.004;
-    const cellW = W / COLS;
-
-    // draw subtle grid lines
-    ctx.strokeStyle = 'rgba(0,212,255,0.04)';
-    ctx.lineWidth = 1;
-    for (let d of dots) {
-      ctx.beginPath();
-      ctx.moveTo(d.x, 0);
-      ctx.lineTo(d.x, H);
-      ctx.stroke();
-      ctx.beginPath();
-      ctx.moveTo(0, d.y);
-      ctx.lineTo(W, d.y);
-      ctx.stroke();
-    }
-
-    // draw pulsing dots at intersections
-    for (let d of dots) {
-      const pulse = Math.sin(t + d.phase) * 0.5 + 0.5;
-      const alpha = d.base * pulse * 0.55;
-      ctx.beginPath();
-      ctx.arc(d.x, d.y, 1.2, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(0,212,255,${alpha})`;
-      ctx.fill();
-    }
-
-    requestAnimationFrame(draw);
-  }
-
-  window.addEventListener('resize', resize);
-  resize();
-  draw();
+  menu.querySelectorAll('a').forEach(link => link.addEventListener('click', close));
 })();
 
-/* ── TYPING EFFECT ───────────────────────────── */
+/* selected work — rendered from portfolio.js (runs before the reveal
+   observer below, so injected cards animate like static ones) */
 (function () {
-  const el = document.getElementById('typed-title');
-  if (!el) return;
-  const phrases = [
-    'DevSecOps Engineer',
-    'Cloud Security MSc',
-    'AWS Specialist',
-    'Data Automation'
-  ];
-  let pi = 0, ci = 0, deleting = false;
-  const SPEED_TYPE = 65, SPEED_DEL = 35, PAUSE = 1800;
+  const mount = document.getElementById('work-list');
+  if (!mount || typeof CASE_STUDIES === 'undefined') return;
 
-  function tick() {
-    const phrase = phrases[pi];
-    if (!deleting) {
-      el.textContent = phrase.slice(0, ++ci);
-      if (ci === phrase.length) { deleting = true; setTimeout(tick, PAUSE); return; }
+  const el = (tag, cls, text) => {
+    const n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (text) n.textContent = text;
+    return n;
+  };
+
+  CASE_STUDIES.forEach((cs, i) => {
+    const art = el('article', 'case reveal' + (i % 2 ? ' case-flip' : ''));
+
+    const body = el('div', 'case-body');
+    body.append(el('p', 'case-meta', `${cs.client} · ${cs.role} · ${cs.period}`));
+    body.append(el('h3', 'case-title', cs.title));
+    [['Challenge', cs.challenge], ['Approach', cs.approach], ['Outcome', cs.outcome]]
+      .forEach(([label, text]) => {
+        const block = el('div', 'case-block');
+        block.append(el('h4', 'case-label', label), el('p', null, text));
+        body.append(block);
+      });
+    const tags = el('p', 'case-tags');
+    tags.textContent = cs.tags.join(' · ');
+    body.append(tags);
+
+    const media = el('div', 'work-media');
+    if (cs.image) {
+      const img = el('img');
+      img.src = cs.image;
+      img.alt = cs.imageAlt || cs.title;
+      img.loading = 'lazy';
+      media.append(img);
+      if (cs.caption) media.append(el('p', 'work-caption', cs.caption));
     } else {
-      el.textContent = phrase.slice(0, --ci);
-      if (ci === 0) {
-        deleting = false;
-        pi = (pi + 1) % phrases.length;
-        setTimeout(tick, 300); return;
-      }
+      media.classList.add('work-media-empty');
+      const ph = el('div', 'work-placeholder');
+      ph.innerHTML =
+        '<svg width="44" height="34" viewBox="0 0 44 34" fill="none" aria-hidden="true">' +
+        '<rect x="1" y="20" width="8" height="13" rx="1.5" fill="currentColor" opacity=".45"/>' +
+        '<rect x="13" y="12" width="8" height="21" rx="1.5" fill="currentColor" opacity=".65"/>' +
+        '<rect x="25" y="5" width="8" height="28" rx="1.5" fill="currentColor" opacity=".85"/>' +
+        '<rect x="37" y="15" width="6" height="18" rx="1.5" fill="currentColor" opacity=".55"/>' +
+        '</svg>';
+      ph.append(el('span', null, 'Work sample — coming soon'));
+      media.append(ph);
     }
-    setTimeout(tick, deleting ? SPEED_DEL : SPEED_TYPE);
-  }
-  setTimeout(tick, 600);
+
+    art.append(body, media);
+    mount.append(art);
+  });
 })();
 
-/* ── SCROLL REVEAL ───────────────────────────── */
+/* reveal on scroll */
 (function () {
-  const obs = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+  const items = document.querySelectorAll('.reveal');
+  if (!('IntersectionObserver' in window)) {
+    items.forEach(el => el.classList.add('in'));
+    return;
+  }
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in');
+        io.unobserve(entry.target);
+      }
     });
   }, { threshold: 0.12 });
-
-  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+  items.forEach(el => io.observe(el));
 })();
 
-/* ── NAV SCROLL BEHAVIOUR ────────────────────── */
+/* active nav link */
 (function () {
-  const nav      = document.getElementById('nav');
-  const progress = document.getElementById('nav-progress');
-  const sections = document.querySelectorAll('section[id]');
-  const links    = document.querySelectorAll('.nav-link');
+  const links = document.querySelectorAll('.nav-link');
+  const sections = [...links].map(l => document.getElementById(l.dataset.section)).filter(Boolean);
+  if (!sections.length || !('IntersectionObserver' in window)) return;
 
-  function update() {
-    const scrollY = window.scrollY;
-    const total   = document.body.scrollHeight - window.innerHeight;
-    const pct     = total > 0 ? (scrollY / total) * 100 : 0;
-
-    nav.classList.toggle('scrolled', scrollY > 40);
-    progress.style.width = pct + '%';
-
-    // active section
-    let current = '';
-    sections.forEach(sec => {
-      if (scrollY >= sec.offsetTop - 120) current = sec.id;
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        links.forEach(l => l.classList.toggle('active', l.dataset.section === entry.target.id));
+      }
     });
-    links.forEach(l => {
-      l.classList.toggle('active', l.dataset.section === current);
-    });
-  }
+  }, { rootMargin: '-40% 0px -55% 0px' });
 
-  window.addEventListener('scroll', update, { passive: true });
-  update();
+  sections.forEach(s => io.observe(s));
 })();
-
-/* ── HAMBURGER ───────────────────────────────── */
-(function () {
-  const btn  = document.getElementById('hamburger');
-  const menu = document.getElementById('mobile-menu');
-  if (!btn || !menu) return;
-
-  function toggleMenu(open) {
-    menu.classList.toggle('open', open);
-    btn.setAttribute('aria-expanded', String(open));
-    menu.setAttribute('aria-hidden', String(!open));
-  }
-
-  btn.addEventListener('click', () => {
-    const isOpen = menu.classList.contains('open');
-    toggleMenu(!isOpen);
-  });
-
-  menu.querySelectorAll('.mob-link').forEach(l => {
-    l.addEventListener('click', () => toggleMenu(false));
-  });
-
-  // Close on Escape
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Escape' && menu.classList.contains('open')) toggleMenu(false);
-  });
-})();
-
-/* ── SMOOTH ANCHOR SCROLL ────────────────────── */
-document.querySelectorAll('a[href^="#"]').forEach(a => {
-  a.addEventListener('click', e => {
-    const target = document.querySelector(a.getAttribute('href'));
-    if (!target) return;
-    e.preventDefault();
-    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  });
-});
