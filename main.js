@@ -27,7 +27,7 @@ document.getElementById('year').textContent = new Date().getFullYear();
 (function () {
   const rot = document.getElementById('rotator');
   if (!rot || REDUCE_MOTION) return;
-  const words = ['data', 'operations', 'reporting', 'risk'];
+  const words = ['evidence', 'controls', 'risk', 'identity'];
   let i = 0;
   setInterval(() => {
     i = (i + 1) % words.length;
@@ -161,8 +161,8 @@ document.getElementById('year').textContent = new Date().getFullYear();
       ctx.beginPath();
       ctx.arc(d.x, d.y, r, 0, Math.PI * 2);
       ctx.fillStyle = near > 0.05
-        ? `rgba(90,212,200,${a})`
-        : `rgba(143,160,184,${a * 0.5})`;
+        ? `rgba(125,240,215,${a})`
+        : `rgba(156,175,170,${a * 0.5})`;
       ctx.fill();
     }
     requestAnimationFrame(draw);
@@ -190,7 +190,7 @@ document.getElementById('year').textContent = new Date().getFullYear();
   menu.querySelectorAll('a').forEach(link => link.addEventListener('click', close));
 })();
 
-/* selected work — rendered from portfolio.js (runs before the reveal
+/* selected samples - rendered from portfolio.js (runs before the reveal
    observer below, so injected cards animate like static ones) */
 (function () {
   const mount = document.getElementById('work-list');
@@ -207,9 +207,9 @@ document.getElementById('year').textContent = new Date().getFullYear();
     const art = el('article', 'case reveal' + (i % 2 ? ' case-flip' : ''));
 
     const body = el('div', 'case-body');
-    body.append(el('p', 'case-meta', `${cs.client} · ${cs.role} · ${cs.period}`));
+    body.append(el('p', 'case-meta', cs.sampleType));
     body.append(el('h3', 'case-title', cs.title));
-    [['Challenge', cs.challenge], ['Approach', cs.approach], ['Outcome', cs.outcome]]
+    [['Scenario', cs.scenario], ['Approach', cs.approach], ['What it shows', cs.whatItShows]]
       .forEach(([label, text]) => {
         const block = el('div', 'case-block');
         block.append(el('h4', 'case-label', label), el('p', null, text));
@@ -218,28 +218,23 @@ document.getElementById('year').textContent = new Date().getFullYear();
     const tags = el('p', 'case-tags');
     tags.textContent = cs.tags.join(' · ');
     body.append(tags);
+    const action = el('a', 'sample-link', 'View HTML sample');
+    action.href = cs.sampleUrl;
+    body.append(action);
 
-    const media = el('div', 'work-media');
-    if (cs.image) {
-      const img = el('img');
-      img.src = cs.image;
-      img.alt = cs.imageAlt || cs.title;
-      img.loading = 'lazy';
-      media.append(img);
-      if (cs.caption) media.append(el('p', 'work-caption', cs.caption));
-    } else {
-      media.classList.add('work-media-empty');
-      const ph = el('div', 'work-placeholder');
-      ph.innerHTML =
-        '<svg width="44" height="34" viewBox="0 0 44 34" fill="none" aria-hidden="true">' +
-        '<rect x="1" y="20" width="8" height="13" rx="1.5" fill="currentColor" opacity=".45"/>' +
-        '<rect x="13" y="12" width="8" height="21" rx="1.5" fill="currentColor" opacity=".65"/>' +
-        '<rect x="25" y="5" width="8" height="28" rx="1.5" fill="currentColor" opacity=".85"/>' +
-        '<rect x="37" y="15" width="6" height="18" rx="1.5" fill="currentColor" opacity=".55"/>' +
-        '</svg>';
-      ph.append(el('span', null, 'Work sample — coming soon'));
-      media.append(ph);
-    }
+    const media = el('div', 'work-media sample-preview');
+    media.append(el('p', 'sample-kicker', 'Sample project'));
+    media.append(el('h4', 'sample-preview-title', cs.title));
+    const table = el('div', 'control-table');
+    (cs.statusRows || []).forEach(row => {
+      const line = el('div', 'control-row');
+      row.forEach((cell, idx) => line.append(el('span', idx === 2 ? 'status-chip' : null, cell)));
+      table.append(line);
+    });
+    media.append(table);
+    const previewLink = el('a', 'sample-preview-link', 'Open sample');
+    previewLink.href = cs.sampleUrl;
+    media.append(previewLink);
 
     art.append(body, media);
     mount.append(art);

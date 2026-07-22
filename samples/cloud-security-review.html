@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Fictional cybersecurity portfolio sample: AWS and Microsoft 365 cloud security review.">
+  <title>Sample Project — Cloud Security Review</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body class="sample-page">
+  <header class="nav">
+    <div class="container nav-inner">
+      <a href="../index.html#top" class="wordmark">Zain&nbsp;Abedeen</a>
+      <nav aria-label="Sample navigation">
+        <ul class="nav-links">
+          <li><a href="../index.html#samples" class="nav-link">Back to Samples</a></li>
+          <li><a href="../index.html#contact" class="nav-link nav-link-cta">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="sample-hero">
+      <div class="container">
+        <div>
+          <p class="sample-label">Sample project · AWS / M365 hardening</p>
+          <h1>Cloud security review</h1>
+        </div>
+        <p class="sample-summary">A mock review pack for prioritizing identity, endpoint, logging, backup, and least-privilege improvements across AWS and Microsoft 365.</p>
+      </div>
+    </section>
+
+    <section class="sample-shell">
+      <div class="container">
+        <p class="sample-disclaimer">This is fictional portfolio material. It demonstrates review structure and prioritization style only, and does not contain real client data.</p>
+
+        <div class="sample-grid">
+          <div class="metric-card"><strong>18</strong><span>findings reviewed</span></div>
+          <div class="metric-card"><strong>5</strong><span>high-priority fixes</span></div>
+          <div class="metric-card"><strong>11</strong><span>quick wins</span></div>
+          <div class="metric-card"><strong>30d</strong><span>target remediation window</span></div>
+        </div>
+
+        <div class="sample-panels">
+          <article class="sample-panel">
+            <div class="panel-head">
+              <h2>Prioritized Findings</h2>
+              <span class="pill high">Risk-ranked</span>
+            </div>
+            <div class="panel-body">
+              <table class="sample-table">
+                <thead>
+                  <tr>
+                    <th>Area</th>
+                    <th>Finding</th>
+                    <th>Severity</th>
+                    <th>Recommended action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>AWS IAM</td>
+                    <td>Long-lived access keys exist for two privileged service accounts.</td>
+                    <td><span class="pill high">High</span></td>
+                    <td>Rotate keys, move to role-based access, and alert on future key age.</td>
+                  </tr>
+                  <tr>
+                    <td>Microsoft 365</td>
+                    <td>Conditional access excludes legacy protocol blocking for one group.</td>
+                    <td><span class="pill medium">Medium</span></td>
+                    <td>Enable policy in report-only mode, validate impact, then enforce.</td>
+                  </tr>
+                  <tr>
+                    <td>Logging</td>
+                    <td>CloudTrail is enabled, but alert routing is not tested quarterly.</td>
+                    <td><span class="pill low">Low</span></td>
+                    <td>Add quarterly test evidence and ownership to the control calendar.</td>
+                  </tr>
+                  <tr>
+                    <td>Backups</td>
+                    <td>Backup policy exists, but restore testing evidence is incomplete.</td>
+                    <td><span class="pill medium">Medium</span></td>
+                    <td>Run restore test, document result, and assign recurring review owner.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </article>
+
+          <aside class="sample-panel">
+            <div class="panel-head">
+              <h2>Control Coverage</h2>
+              <span class="pill review">Baseline</span>
+            </div>
+            <div class="panel-body">
+              <div class="bar-list">
+                <div class="bar-row"><span><b>MFA coverage</b><b>96%</b></span><div class="bar"><i style="--w:96%"></i></div></div>
+                <div class="bar-row"><span><b>Endpoint compliance</b><b>84%</b></span><div class="bar"><i style="--w:84%"></i></div></div>
+                <div class="bar-row"><span><b>Log coverage</b><b>91%</b></span><div class="bar"><i style="--w:91%"></i></div></div>
+                <div class="bar-row"><span><b>Privileged review</b><b>72%</b></span><div class="bar"><i style="--w:72%"></i></div></div>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
