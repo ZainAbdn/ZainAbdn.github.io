@@ -27,7 +27,7 @@ document.getElementById('year').textContent = new Date().getFullYear();
 (function () {
   const rot = document.getElementById('rotator');
   if (!rot || REDUCE_MOTION) return;
-  const words = ['security', 'data', 'automation', 'insight'];
+  const words = ['security', 'automation', 'intelligence'];
   let i = 0;
   setInterval(() => {
     i = (i + 1) % words.length;
