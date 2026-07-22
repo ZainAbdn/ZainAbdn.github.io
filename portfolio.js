@@ -9,15 +9,15 @@ const CASE_STUDIES = [
   {
     id: "compliance-evidence-pack",
     title: "Compliance evidence report",
-    sampleType: "Generic sample · Cyber security / GRC report",
+    sampleType: "Generic sample · Cyber Security / GRC report",
     sampleUrl: "samples/compliance-evidence-pack.html",
     tags: ["ISO 27001", "SOC 2", "Evidence", "Controls", "Audit readiness", "Reporting"],
     scenario:
-      "A sample software team needs a clear report showing which security controls are owned, evidenced, reviewed, and ready for an external audit.",
+      "A fictional software business requires a leadership-ready view of control ownership, evidence quality, review cadence, and audit readiness before external assessment.",
     approach:
-      "The HTML report models a control register with owners, evidence status, review dates, exceptions, audit notes, and a readiness summary for leadership.",
+      "The sample report structures a control register with accountable owners, evidence health, review timelines, exceptions, and decision-focused audit commentary.",
     whatItShows:
-      "How I translate compliance frameworks into practical evidence workflows that technical and non-technical stakeholders can both understand.",
+      "My approach to translating ISO 27001, SOC 2, and NIST RMF expectations into practical governance workflows that teams can execute with confidence.",
     ctaLabel: "Open sample report",
     statusRows: [
       ["A.5.15", "Access control", "Ready"],
@@ -28,15 +28,15 @@ const CASE_STUDIES = [
   {
     id: "cloud-security-review",
     title: "Cloud and automation review",
-    sampleType: "Generic sample · Cloud security / automation review",
+    sampleType: "Generic sample · Cloud Security / automation review",
     sampleUrl: "samples/cloud-security-review.html",
     tags: ["AWS IAM", "Microsoft 365", "MFA", "Power Automate", "Logging", "Least privilege"],
     scenario:
-      "A sample operations team needs a concise review of cloud security, identity controls, logging, and automation opportunities across AWS and Microsoft 365.",
+      "A fictional operations function needs an executive review of cloud security posture, identity controls, logging assurance, and automation priorities across AWS and Microsoft 365.",
     approach:
-      "The HTML review ranks findings by severity, ties each issue to practical remediation, and separates quick automation wins from deeper governance work.",
+      "The review pack risk-ranks findings, maps each issue to accountable remediation, and separates immediate automation wins from longer-term governance uplift.",
     whatItShows:
-      "How I assess cloud and identity risk while also spotting automation opportunities that reduce manual work safely.",
+      "How I assess cloud and identity risk while designing controlled automation pathways that improve efficiency without weakening security.",
     ctaLabel: "Open review pack",
     statusRows: [
       ["IAM", "Least privilege", "High"],
@@ -47,15 +47,15 @@ const CASE_STUDIES = [
   {
     id: "security-metrics-dashboard",
     title: "Security and operations dashboard",
-    sampleType: "Generic sample · Data science / security dashboard",
+    sampleType: "Generic sample · Data Automation / security dashboard",
     sampleUrl: "samples/security-metrics-dashboard.html",
     tags: ["Dashboards", "Incidents", "SLA", "Vulnerabilities", "Automation", "Power BI thinking"],
     scenario:
-      "A sample leadership team needs one dashboard that explains incident trends, vulnerability aging, remediation performance, automation impact, and policy exceptions without drowning in raw tickets.",
+      "A fictional leadership team needs a concise operating dashboard that explains incident trends, vulnerability aging, remediation performance, automation impact, and policy exceptions.",
     approach:
-      "The HTML dashboard uses executive tiles, trend tables, simple data storytelling, and risk narratives to turn raw security and operations metrics into a focused monthly view.",
+      "The dashboard combines executive KPIs, trend views, and risk narratives to convert raw security and operations data into an actionable monthly operating picture.",
     whatItShows:
-      "How I design analytics around decisions: what is improving, what is stuck, what can be automated, who owns the next action, and what risk remains.",
+      "How I design analytics for decision support by clarifying what is improving, what requires escalation, where automation can scale, and which owners are accountable next.",
     ctaLabel: "Open sample dashboard",
     statusRows: [
       ["Incidents", "31 days", "Down"],

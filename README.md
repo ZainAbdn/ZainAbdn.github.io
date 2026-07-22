@@ -1,6 +1,6 @@
 # ZainAbdn.github.io
 
-Professional cybersecurity, data science, and automation portfolio website for Zain Abedeen, hosted via GitHub Pages.
+Professional Cyber Security and Data Automation portfolio website for Zain Abedeen, hosted via GitHub Pages.
 
 ## Portfolio samples
 
