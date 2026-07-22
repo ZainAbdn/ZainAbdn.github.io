@@ -1,10 +1,10 @@
 # ZainAbdn.github.io
 
-Professional cybersecurity portfolio website for Zain Abedeen, hosted via GitHub Pages.
+Professional cybersecurity, data science, and automation portfolio website for Zain Abedeen, hosted via GitHub Pages.
 
 ## Portfolio samples
 
-The homepage sample cards are defined in `portfolio.js`. Each card links to a fictional standalone HTML sample in `samples/`.
+The homepage sample cards are defined in `portfolio.js`. Each card links to a generic fictional standalone HTML report, dashboard, or review pack in `samples/`.
 
 Current samples:
 
@@ -12,7 +12,7 @@ Current samples:
 - `samples/cloud-security-review.html`
 - `samples/security-metrics-dashboard.html`
 
-These samples are intentionally marked as sample projects and do not contain real client data.
+These samples are intentionally marked as generic sample projects and do not contain real company or client data.
 
 ## Updating samples
 

@@ -27,7 +27,7 @@ document.getElementById('year').textContent = new Date().getFullYear();
 (function () {
   const rot = document.getElementById('rotator');
   if (!rot || REDUCE_MOTION) return;
-  const words = ['evidence', 'controls', 'risk', 'identity'];
+  const words = ['security', 'data', 'automation', 'insight'];
   let i = 0;
   setInterval(() => {
     i = (i + 1) % words.length;
@@ -218,7 +218,7 @@ document.getElementById('year').textContent = new Date().getFullYear();
     const tags = el('p', 'case-tags');
     tags.textContent = cs.tags.join(' · ');
     body.append(tags);
-    const action = el('a', 'sample-link', 'View HTML sample');
+    const action = el('a', 'sample-link', cs.ctaLabel || 'Open sample');
     action.href = cs.sampleUrl;
     body.append(action);
 
@@ -232,7 +232,7 @@ document.getElementById('year').textContent = new Date().getFullYear();
       table.append(line);
     });
     media.append(table);
-    const previewLink = el('a', 'sample-preview-link', 'Open sample');
+    const previewLink = el('a', 'sample-preview-link', cs.ctaLabel || 'Open sample');
     previewLink.href = cs.sampleUrl;
     media.append(previewLink);
 

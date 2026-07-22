@@ -297,6 +297,14 @@ a:hover { text-decoration: underline; text-underline-offset: 3px; }
   color: var(--text-muted);
 }
 
+.hero-story {
+  margin-top: var(--s3);
+  max-width: 36rem;
+  color: var(--text-muted);
+  font-size: 1rem;
+  line-height: 1.68;
+}
+
 .hero-ctas {
   margin-top: var(--s5);
   display: flex;

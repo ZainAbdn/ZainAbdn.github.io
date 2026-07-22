@@ -1,23 +1,24 @@
 /* ============================================================
-   Selected Samples - fictional cyber security portfolio data
+   Selected Samples - fictional portfolio data
    ------------------------------------------------------------
-   These are sample projects, not real client engagements. Each
-   item links to a standalone static HTML sample under /samples.
+   These are generic sample projects, not real client engagements.
+   Each item links to a standalone static HTML sample under /samples.
    ============================================================ */
 
 const CASE_STUDIES = [
   {
     id: "compliance-evidence-pack",
-    title: "Compliance evidence pack",
-    sampleType: "Sample project · GRC evidence",
+    title: "Compliance evidence report",
+    sampleType: "Generic sample · Cyber security / GRC report",
     sampleUrl: "samples/compliance-evidence-pack.html",
-    tags: ["ISO 27001", "SOC 2", "Evidence", "Controls", "Audit readiness"],
+    tags: ["ISO 27001", "SOC 2", "Evidence", "Controls", "Audit readiness", "Reporting"],
     scenario:
-      "A growing software team needs a clear way to show which security controls are owned, evidenced, reviewed, and ready for an external audit.",
+      "A sample software team needs a clear report showing which security controls are owned, evidenced, reviewed, and ready for an external audit.",
     approach:
-      "The sample models a control register with owners, evidence links, review dates, exceptions, audit notes, and status flags that make weak points visible before the audit window.",
+      "The HTML report models a control register with owners, evidence status, review dates, exceptions, audit notes, and a readiness summary for leadership.",
     whatItShows:
       "How I translate compliance frameworks into practical evidence workflows that technical and non-technical stakeholders can both understand.",
+    ctaLabel: "Open sample report",
     statusRows: [
       ["A.5.15", "Access control", "Ready"],
       ["A.8.15", "Logging", "Reviewing"],
@@ -26,34 +27,36 @@ const CASE_STUDIES = [
   },
   {
     id: "cloud-security-review",
-    title: "Cloud security review",
-    sampleType: "Sample project · AWS / M365 hardening",
+    title: "Cloud and automation review",
+    sampleType: "Generic sample · Cloud security / automation review",
     sampleUrl: "samples/cloud-security-review.html",
-    tags: ["AWS IAM", "Microsoft 365", "MFA", "Logging", "Least privilege"],
+    tags: ["AWS IAM", "Microsoft 365", "MFA", "Power Automate", "Logging", "Least privilege"],
     scenario:
-      "A cloud environment has grown quickly and needs a concise security review across identity, endpoints, logging, backups, and deployment controls.",
+      "A sample operations team needs a concise review of cloud security, identity controls, logging, and automation opportunities across AWS and Microsoft 365.",
     approach:
-      "The sample presents a security review format that ranks findings by severity, ties each issue to practical remediation, and separates quick wins from deeper governance work.",
+      "The HTML review ranks findings by severity, ties each issue to practical remediation, and separates quick automation wins from deeper governance work.",
     whatItShows:
-      "How I assess cloud and identity risk in a way that helps teams prioritize security improvements without losing operational context.",
+      "How I assess cloud and identity risk while also spotting automation opportunities that reduce manual work safely.",
+    ctaLabel: "Open review pack",
     statusRows: [
       ["IAM", "Least privilege", "High"],
       ["M365", "Conditional access", "Medium"],
-      ["AWS", "CloudTrail coverage", "Low"]
+      ["Flow", "Approval automation", "Ready"]
     ]
   },
   {
     id: "security-metrics-dashboard",
-    title: "Security metrics dashboard",
-    sampleType: "Sample project · Security analytics",
+    title: "Security and operations dashboard",
+    sampleType: "Generic sample · Data science / security dashboard",
     sampleUrl: "samples/security-metrics-dashboard.html",
-    tags: ["Incidents", "SLA", "Vulnerabilities", "Exceptions", "Power BI thinking"],
+    tags: ["Dashboards", "Incidents", "SLA", "Vulnerabilities", "Automation", "Power BI thinking"],
     scenario:
-      "Leadership needs one security view that explains incident trends, vulnerability aging, remediation performance, and policy exceptions without drowning in raw tickets.",
+      "A sample leadership team needs one dashboard that explains incident trends, vulnerability aging, remediation performance, automation impact, and policy exceptions without drowning in raw tickets.",
     approach:
-      "The sample uses executive tiles, trend tables, and risk narratives to show how security telemetry can become a focused monthly operating report.",
+      "The HTML dashboard uses executive tiles, trend tables, simple data storytelling, and risk narratives to turn raw security and operations metrics into a focused monthly view.",
     whatItShows:
-      "How I design security analytics around decisions: what is improving, what is stuck, who owns the next action, and what risk remains.",
+      "How I design analytics around decisions: what is improving, what is stuck, what can be automated, who owns the next action, and what risk remains.",
+    ctaLabel: "Open sample dashboard",
     statusRows: [
       ["Incidents", "31 days", "Down"],
       ["Critical vulns", "4 open", "Watch"],
