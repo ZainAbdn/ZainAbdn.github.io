@@ -26,3 +26,9 @@ To add a new sample:
 ## Local preview
 
 Open `index.html` directly in a browser, or serve the repository root with any static file server.
+
+## Homepage design
+
+The homepage uses `site.css` and `main.js` (the `samples/` pages still use `styles.css`). It has two WebGL motion shaders: a domain-warped silk background and a liquid, chromatic-split portrait. Both fall back to static gradients without WebGL and stop animating under `prefers-reduced-motion`.
+
+**Portrait:** save a photo as `assets/zain.jpg` (portrait orientation, about 900×1125). Until that file exists, the frame shows an animated "ZA" orb.
