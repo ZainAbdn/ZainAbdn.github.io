@@ -1,6 +1,6 @@
 # ZainAbdn.github.io
 
-Professional Cyber Security and Data Automation portfolio website for Zain Abedeen, hosted via GitHub Pages.
+Forward Deployed Engineer portfolio (security, data and automation) for Zain Abedeen, hosted via GitHub Pages.
 
 ## Portfolio samples
 

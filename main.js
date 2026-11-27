@@ -249,7 +249,7 @@ $('#year').textContent = new Date().getFullYear();
     const body = el('div', 'case-body');
     body.append(el('p', 'case-meta', cs.sampleType.replace(/^Generic sample · /, '')));
     body.append(el('h3', 'case-title', cs.title));
-    [['Scenario', cs.scenario], ['Approach', cs.approach], ['What it shows', cs.whatItShows]].forEach(([label, text]) => {
+    [['The field problem', cs.scenario], ['What I built', cs.approach], ['Why it matters', cs.whatItShows]].forEach(([label, text]) => {
       const b = el('div', 'case-block');
       b.append(el('h4', null, label), el('p', null, text));
       body.append(b);
@@ -265,7 +265,7 @@ $('#year').textContent = new Date().getFullYear();
 
     const media = el('div', 'case-media');
     const head = el('div', 'rep-head');
-    head.append(el('span', null, 'Sample report'), el('span', null, 'Fictional data'));
+    head.append(el('span', null, 'Deployment output'), el('span', null, 'Fictional data'));
     media.append(head, el('p', 'rep-title', cs.title));
     const table = el('table', 'rep-table');
     const thead = el('thead'), hr = el('tr');

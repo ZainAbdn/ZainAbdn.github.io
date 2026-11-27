@@ -15,7 +15,7 @@ const CASE_STUDIES = [
     scenario:
       "A fictional software business requires a leadership-ready view of control ownership, evidence quality, review cadence, and audit readiness before external assessment.",
     approach:
-      "The sample report structures a control register with accountable owners, evidence health, review timelines, exceptions, and decision-focused audit commentary.",
+      "Embedded with control owners to build a live control register: accountable owners, evidence health, review timelines and exceptions, rolled up into decision-focused audit commentary for leadership.",
     whatItShows:
       "My approach to translating ISO 27001, SOC 2, and NIST RMF expectations into practical governance workflows that teams can execute with confidence.",
     ctaLabel: "Open sample report",
@@ -34,7 +34,7 @@ const CASE_STUDIES = [
     scenario:
       "A fictional operations function needs an executive review of cloud security posture, identity controls, logging assurance, and automation priorities across AWS and Microsoft 365.",
     approach:
-      "The review pack risk-ranks findings, maps each issue to accountable remediation, and separates immediate automation wins from longer-term governance uplift.",
+      "Reviewed identity, logging and workflow configuration in the customer's own AWS and Microsoft 365 tenants, risk-ranked the findings, and shipped approval automation as an immediate win alongside a longer-term remediation plan.",
     whatItShows:
       "How I assess cloud and identity risk while designing controlled automation pathways that improve efficiency without weakening security.",
     ctaLabel: "Open review pack",
@@ -53,7 +53,7 @@ const CASE_STUDIES = [
     scenario:
       "A fictional leadership team needs a concise operating dashboard that explains incident trends, vulnerability aging, remediation performance, automation impact, and policy exceptions.",
     approach:
-      "The dashboard combines executive KPIs, trend views, and risk narratives to convert raw security and operations data into an actionable monthly operating picture.",
+      "Connected raw incident, vulnerability and SLA data into a single model and built an executive dashboard with KPIs, trends and risk narratives that refreshes into a monthly operating picture.",
     whatItShows:
       "How I design analytics for decision support by clarifying what is improving, what requires escalation, where automation can scale, and which owners are accountable next.",
     ctaLabel: "Open sample dashboard",
