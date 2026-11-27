@@ -1,16 +1,8 @@
-/* Zain Abedeen — portfolio interactions + WebGL motion shaders */
+/* Zain Abedeen — portfolio interactions + subtle WebGL shaders */
 
 const REDUCE_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const FINE_POINTER = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-const MOUSE = { x: innerWidth * 0.5, y: innerHeight * 0.4, nx: 0.5, ny: 0.6 };
 
-window.addEventListener('pointermove', (e) => {
-  MOUSE.x = e.clientX; MOUSE.y = e.clientY;
-  MOUSE.nx = e.clientX / innerWidth;
-  MOUSE.ny = 1 - e.clientY / innerHeight;
-}, { passive: true });
-
-/* ---------- small helpers ---------- */
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 const el = (tag, cls, text) => {
@@ -21,39 +13,50 @@ const el = (tag, cls, text) => {
 };
 const lerp = (a, b, t) => a + (b - a) * t;
 
-/* ---------- WebGL helper ---------- */
-function createGL(canvas) {
-  const gl = canvas.getContext('webgl', { antialias: false, premultipliedAlpha: false, alpha: false, powerPreference: 'high-performance' });
+/* ---------- WebGL helpers ---------- */
+function makeProgram(canvas, fragSrc) {
+  const gl = canvas.getContext('webgl', { antialias: false, alpha: true, premultipliedAlpha: true });
   if (!gl) return null;
-  return gl;
-}
-function program(gl, fragSrc) {
-  const vert = 'attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}';
   const compile = (type, src) => {
     const s = gl.createShader(type);
     gl.shaderSource(s, src); gl.compileShader(s);
-    if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) { console.warn(gl.getShaderInfoLog(s)); return null; }
-    return s;
+    return gl.getShaderParameter(s, gl.COMPILE_STATUS) ? s : null;
   };
-  const vs = compile(gl.VERTEX_SHADER, vert), fs = compile(gl.FRAGMENT_SHADER, fragSrc);
+  const vs = compile(gl.VERTEX_SHADER, 'attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}');
+  const fs = compile(gl.FRAGMENT_SHADER, fragSrc);
   if (!vs || !fs) return null;
   const pr = gl.createProgram();
   gl.attachShader(pr, vs); gl.attachShader(pr, fs); gl.linkProgram(pr);
   if (!gl.getProgramParameter(pr, gl.LINK_STATUS)) return null;
   gl.useProgram(pr);
-  const buf = gl.createBuffer();
-  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+  gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
   gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
   const loc = gl.getAttribLocation(pr, 'p');
   gl.enableVertexAttribArray(loc);
   gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
   const u = {};
-  const n = gl.getProgramParameter(pr, gl.ACTIVE_UNIFORMS);
-  for (let i = 0; i < n; i++) { const info = gl.getActiveUniform(pr, i); u[info.name] = gl.getUniformLocation(pr, info.name); }
-  return u;
+  for (let i = 0; i < gl.getProgramParameter(pr, gl.ACTIVE_UNIFORMS); i++) {
+    const info = gl.getActiveUniform(pr, i);
+    u[info.name] = gl.getUniformLocation(pr, info.name);
+  }
+  return { gl, u };
 }
 
-const NOISE_GLSL = `
+/* Runs a draw callback only while the element is on screen and the tab is visible.
+   With reduced motion, draws a single still frame. */
+function animate(target, draw) {
+  if (REDUCE_MOTION) { draw(8000); return () => draw(8000); }
+  let visible = true;
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(([en]) => { visible = en.isIntersecting; }).observe(target);
+  }
+  const t0 = performance.now();
+  const loop = (now) => { if (visible && !document.hidden) draw(now - t0); requestAnimationFrame(loop); };
+  requestAnimationFrame(loop);
+  return () => {};
+}
+
+const NOISE = `
 float hash(vec2 p){p=fract(p*vec2(123.34,456.21));p+=dot(p,p+45.32);return fract(p.x*p.y);}
 float noise(vec2 p){vec2 i=floor(p),f=fract(p);vec2 u=f*f*(3.-2.*f);
   return mix(mix(hash(i),hash(i+vec2(1,0)),u.x),mix(hash(i+vec2(0,1)),hash(i+vec2(1,1)),u.x),u.y);}
@@ -61,88 +64,73 @@ float fbm(vec2 p){float v=0.,a=.5;mat2 m=mat2(1.6,1.2,-1.2,1.6);
   for(int i=0;i<5;i++){v+=a*noise(p);p=m*p;a*=.5;}return v;}
 `;
 
-/* ---------- 1. background: domain-warped silk shader ---------- */
-(function bgShader() {
-  const canvas = $('#bg-shader');
-  if (!canvas) return;
-  const gl = createGL(canvas);
-  if (!gl) { canvas.remove(); return; }
-  const u = program(gl, `precision highp float;
-uniform vec2 uRes;uniform float uTime;uniform vec2 uMouse;uniform float uScroll;
-${NOISE_GLSL}
+/* ---------- navy "silk" field: hero + contact ---------- */
+const FIELD_FRAG = `precision highp float;
+uniform vec2 uRes;uniform float uTime;uniform vec2 uMouse;uniform float uSeed;
+${NOISE}
 void main(){
   vec2 uv=gl_FragCoord.xy/uRes;
   vec2 p=(gl_FragCoord.xy-.5*uRes)/uRes.y;
-  float t=uTime*.055;
-  vec2 m=(uMouse-.5)*vec2(uRes.x/uRes.y,1.);
-  p+=vec2(0.,uScroll*.35);
-  vec2 q=vec2(fbm(p*1.3+t),fbm(p*1.3+vec2(5.2,1.3)-t));
-  vec2 r=vec2(fbm(p*1.5+3.*q+vec2(1.7,9.2)+t*1.3+m*.35),fbm(p*1.5+3.*q+vec2(8.3,2.8)-t));
-  float f=fbm(p*1.15+2.6*r);
-  vec3 ink=vec3(.018,.022,.038);
-  vec3 violet=vec3(.40,.27,1.);
-  vec3 teal=vec3(.10,.86,.72);
-  vec3 ember=vec3(1.,.43,.22);
-  vec3 col=ink;
-  col=mix(col,violet*.62,smoothstep(.38,.9,f));
-  col=mix(col,teal*.48,smoothstep(.55,1.05,length(q))*.7);
-  col=mix(col,ember*.78,smoothstep(.6,.98,r.x)*.6);
-  float silk=pow(abs(sin((f+r.y)*8.+t*5.)),22.);
-  col+=silk*vec3(.95,.85,1.)*.07*f;
-  float md=length(p-m);
-  col+=mix(ember,violet,.4)*.10*exp(-md*md*5.);
-  col*=mix(1.,.5,clamp(uScroll,0.,1.));
-  col*=smoothstep(1.35,.15,length((uv-.5)*vec2(1.25,1.)) * 1.5);
+  float t=uTime*.018+uSeed;
+  vec2 q=vec2(fbm(p*1.1+t),fbm(p*1.1+vec2(5.2,1.3)-t));
+  vec2 r=vec2(fbm(p*1.3+2.4*q+vec2(1.7,9.2)+t*1.2+(uMouse-.5)*.25),fbm(p*1.3+2.4*q+vec2(8.3,2.8)-t));
+  float f=fbm(p*1.0+2.2*r);
+  vec3 base=vec3(.039,.102,.184);
+  vec3 deep=vec3(.024,.063,.122);
+  vec3 steel=vec3(.10,.20,.33);
+  vec3 col=mix(deep,base,smoothstep(.2,.7,uv.y*.6+f*.6));
+  col=mix(col,steel,smoothstep(.55,.95,f)*.55);
+  float sheen=pow(abs(sin((f+r.y)*6.+t*3.)),30.);
+  col+=vec3(.79,.68,.50)*sheen*.035;
+  col*=1.-.25*length(uv-vec2(.7,.6));
   gl_FragColor=vec4(col,1.);
-}`);
-  if (!u) { canvas.remove(); return; }
+}`;
 
-  const SCALE = 0.5;
-  const resize = () => {
-    const dpr = Math.min(devicePixelRatio || 1, 2);
-    canvas.width = Math.max(2, Math.floor(innerWidth * dpr * SCALE));
-    canvas.height = Math.max(2, Math.floor(innerHeight * dpr * SCALE));
-    gl.viewport(0, 0, canvas.width, canvas.height);
-    gl.uniform2f(u.uRes, canvas.width, canvas.height);
-  };
-  resize();
-  addEventListener('resize', resize);
-
-  const m = { x: MOUSE.nx, y: MOUSE.ny };
-  let scroll = 0;
-  const t0 = performance.now();
-  const draw = (now) => {
-    m.x = lerp(m.x, MOUSE.nx, 0.04);
-    m.y = lerp(m.y, MOUSE.ny, 0.04);
-    scroll = lerp(scroll, Math.min(scrollY / innerHeight, 1.6), 0.08);
-    gl.uniform1f(u.uTime, REDUCE_MOTION ? 24 : (now - t0) / 1000 + 12);
+function fieldShader(canvas, host, seed) {
+  if (!canvas) return;
+  const ctx = makeProgram(canvas, FIELD_FRAG);
+  if (!ctx) { canvas.remove(); return; }
+  const { gl, u } = ctx;
+  gl.uniform1f(u.uSeed, seed);
+  const target = { x: 0.5, y: 0.5 }, m = { x: 0.5, y: 0.5 };
+  if (FINE_POINTER) {
+    host.addEventListener('pointermove', (e) => {
+      const r = host.getBoundingClientRect();
+      target.x = (e.clientX - r.left) / r.width;
+      target.y = 1 - (e.clientY - r.top) / r.height;
+    });
+  }
+  const draw = (ms) => {
+    m.x = lerp(m.x, target.x, 0.02); m.y = lerp(m.y, target.y, 0.02);
+    gl.uniform1f(u.uTime, ms / 1000);
     gl.uniform2f(u.uMouse, m.x, m.y);
-    gl.uniform1f(u.uScroll, Math.min(scroll, 1));
     gl.drawArrays(gl.TRIANGLES, 0, 3);
   };
-  if (REDUCE_MOTION) {
-    draw(performance.now());
-    addEventListener('resize', () => draw(performance.now()));
-    return;
-  }
-  const loop = (now) => { if (!document.hidden) draw(now); requestAnimationFrame(loop); };
-  requestAnimationFrame(loop);
-})();
+  const resize = () => {
+    const dpr = Math.min(devicePixelRatio || 1, 2) * 0.5;
+    canvas.width = Math.max(2, Math.floor(host.clientWidth * dpr));
+    canvas.height = Math.max(2, Math.floor(host.clientHeight * dpr));
+    gl.viewport(0, 0, canvas.width, canvas.height);
+    gl.uniform2f(u.uRes, canvas.width, canvas.height);
+    redraw();
+  };
+  const redraw = animate(host, draw);
+  resize();
+  addEventListener('resize', resize);
+}
+fieldShader($('#hero-shader'), $('.hero'), 3.0);
+fieldShader($('#contact-shader'), $('.contact'), 11.0);
 
-/* ---------- 2. portrait: liquid / chromatic shader ---------- */
+/* ---------- portrait: gentle drift + soft grade ---------- */
 (function portraitShader() {
-  const fig = $('.portrait');
-  const canvas = $('#portrait-gl');
-  const img = $('#portrait-img');
+  const fig = $('.portrait'), canvas = $('#portrait-gl'), img = $('#portrait-img');
   if (!fig || !canvas || !img) return;
+  const noPhoto = () => fig.classList.add('no-photo');
 
-  const markNoPhoto = () => fig.classList.add('no-photo');
-
-  const gl = createGL(canvas);
-  const u = gl && program(gl, `precision highp float;
+  const ctx = makeProgram(canvas, `precision highp float;
 uniform vec2 uRes;uniform vec2 uImg;uniform float uTime;uniform float uHover;uniform float uHas;uniform vec2 uMouse;
 uniform sampler2D uTex;
-${NOISE_GLSL}
+${NOISE}
 void main(){
   vec2 uv=gl_FragCoord.xy/uRes; uv.y=1.-uv.y;
   float t=uTime;
@@ -150,65 +138,71 @@ void main(){
   if(uHas>.5){
     float ar=uRes.x/uRes.y, ir=uImg.x/uImg.y;
     vec2 sc=vec2(min(ar/ir,1.),min(ir/ar,1.));
-    vec2 tuv=uv*sc+(1.-sc)*.5;
-    float n=fbm(uv*3.+vec2(t*.08,-t*.06));
-    vec2 d=(vec2(n,fbm(uv*3.+4.+t*.07))-.5)*(.012+.02*uHover);
-    vec2 dm=uv-uMouse; float md=length(dm);
-    d+=normalize(dm+1e-4)*exp(-md*md*28.)*sin(md*46.-t*5.)*.012*uHover;
-    vec2 ca=vec2(.0025+.006*uHover,0.)*(1.+n);
-    float r=texture2D(uTex,tuv+d+ca).r;
-    float g=texture2D(uTex,tuv+d).g;
-    float b=texture2D(uTex,tuv+d-ca).b;
-    vec3 c=vec3(r,g,b);
+    vec2 tuv=(uv-.5)*(1.-.02*uHover)+.5;
+    tuv=tuv*sc+(1.-sc)*.5;
+    vec2 d=(vec2(fbm(uv*2.5+t*.05),fbm(uv*2.5+4.-t*.04))-.5)*.006;
+    float md=length(uv-uMouse);
+    d+=(uv-uMouse)*exp(-md*md*18.)*.01*uHover;
+    vec3 c=texture2D(uTex,tuv+d).rgb;
     float l=dot(c,vec3(.299,.587,.114));
-    vec3 duo=mix(vec3(.05,.04,.14),vec3(.42,.32,1.),smoothstep(.05,.55,l));
-    duo=mix(duo,vec3(1.,.62,.42),smoothstep(.55,.95,l));
-    col=mix(duo,c,.28+.6*uHover);
+    vec3 duo=mix(vec3(.04,.10,.18),vec3(.93,.92,.89),smoothstep(.04,.92,l));
+    col=mix(duo,c,.55+.4*uHover);
   } else {
-    vec2 p=uv-.5; p.x*=uRes.x/uRes.y;
-    float q=fbm(p*3.+t*.12); float rr=fbm(p*2.5+q*2.-t*.1);
-    float orb=smoothstep(.42,.0,length(p+vec2(q-.5,rr-.5)*.18));
-    vec3 a=vec3(.40,.27,1.), b=vec3(.10,.86,.72), e=vec3(1.,.43,.22);
-    col=mix(vec3(.02,.02,.04),mix(a,e,rr),orb);
-    col+=b*pow(orb,4.)*.35;
-    col+=exp(-length(uv-uMouse)*6.)*.12*uHover*e;
+    vec2 p=uv-vec2(.5,.45); p.x*=uRes.x/uRes.y;
+    float f=fbm(p*2.2+t*.04);
+    col=mix(vec3(.04,.10,.18),vec3(.12,.23,.37),smoothstep(.8,.0,length(p)+f*.25));
+    col+=vec3(.79,.68,.50)*exp(-length(uv-uMouse)*5.)*.06*uHover;
   }
-  col+=sin(gl_FragCoord.y*1.6)*.018;
-  col*=1.-.55*pow(length(uv-.5)*1.25,2.2);
+  col*=1.-.35*pow(length(uv-.5)*1.2,2.5);
   gl_FragColor=vec4(col,1.);
 }`);
 
-  if (!u) {
+  if (!ctx) {
     canvas.remove();
-    img.addEventListener('error', markNoPhoto);
-    if (img.complete && !img.naturalWidth) markNoPhoto();
+    img.addEventListener('error', noPhoto);
+    if (img.complete && !img.naturalWidth) noPhoto();
     return;
   }
-
-  const tex = gl.createTexture();
-  gl.bindTexture(gl.TEXTURE_2D, tex);
-  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+  const { gl, u } = ctx;
+  gl.bindTexture(gl.TEXTURE_2D, gl.createTexture());
+  [gl.TEXTURE_WRAP_S, gl.TEXTURE_WRAP_T].forEach(k => gl.texParameteri(gl.TEXTURE_2D, k, gl.CLAMP_TO_EDGE));
   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
   gl.uniform1i(u.uTex, 0);
   gl.uniform1f(u.uHas, 0);
   fig.classList.add('gl-on');
 
+  const st = { hover: 0, target: 0, mx: 0.5, my: 0.5, sx: 0.5, sy: 0.5 };
+  if (FINE_POINTER) {
+    fig.addEventListener('pointerenter', () => { st.target = 1; });
+    fig.addEventListener('pointerleave', () => { st.target = 0; });
+    fig.addEventListener('pointermove', (e) => {
+      const r = canvas.getBoundingClientRect();
+      st.mx = (e.clientX - r.left) / r.width; st.my = (e.clientY - r.top) / r.height;
+    });
+  }
+  const draw = (ms) => {
+    st.hover = lerp(st.hover, st.target, 0.05);
+    st.sx = lerp(st.sx, st.mx, 0.1); st.sy = lerp(st.sy, st.my, 0.1);
+    gl.uniform1f(u.uTime, ms / 1000);
+    gl.uniform1f(u.uHover, st.hover);
+    gl.uniform2f(u.uMouse, st.sx, st.sy);
+    gl.drawArrays(gl.TRIANGLES, 0, 3);
+  };
+  const redraw = animate(fig, draw);
+
   const upload = () => {
     try {
       gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, img);
       gl.uniform2f(u.uImg, img.naturalWidth, img.naturalHeight);
       gl.uniform1f(u.uHas, 1);
-    } catch (err) { markNoPhoto(); }
-    if (REDUCE_MOTION) draw(0);
+    } catch (err) { noPhoto(); }
+    redraw();
   };
-  queueMicrotask(() => {
-    if (img.complete && img.naturalWidth) upload();
-    else if (img.complete) { markNoPhoto(); if (REDUCE_MOTION) draw(0); }
-  });
+  if (img.complete && img.naturalWidth) upload();
+  else if (img.complete) noPhoto();
   img.addEventListener('load', upload);
-  img.addEventListener('error', () => { markNoPhoto(); if (REDUCE_MOTION) draw(0); });
+  img.addEventListener('error', () => { noPhoto(); redraw(); });
 
   const resize = () => {
     const r = canvas.getBoundingClientRect();
@@ -217,123 +211,33 @@ void main(){
     canvas.height = Math.max(2, Math.floor(r.height * dpr));
     gl.viewport(0, 0, canvas.width, canvas.height);
     gl.uniform2f(u.uRes, canvas.width, canvas.height);
+    redraw();
   };
   resize();
   addEventListener('resize', resize);
-
-  const state = { hover: 0, target: 0, mx: 0.5, my: 0.5 };
-  fig.addEventListener('pointerenter', () => { state.target = 1; });
-  fig.addEventListener('pointerleave', () => { state.target = 0; });
-  fig.addEventListener('pointermove', (e) => {
-    const r = canvas.getBoundingClientRect();
-    state.mx = (e.clientX - r.left) / r.width;
-    state.my = (e.clientY - r.top) / r.height;
-  });
-  if (!FINE_POINTER) state.target = 0.35;
-
-  let visible = true;
-  if ('IntersectionObserver' in window) {
-    new IntersectionObserver(([en]) => { visible = en.isIntersecting; }).observe(fig);
-  }
-
-  const t0 = performance.now();
-  const sm = { x: 0.5, y: 0.5 };
-  function draw(now) {
-    state.hover = lerp(state.hover, state.target, 0.07);
-    sm.x = lerp(sm.x, state.mx, 0.15); sm.y = lerp(sm.y, state.my, 0.15);
-    gl.uniform1f(u.uTime, REDUCE_MOTION ? 3 : (now - t0) / 1000);
-    gl.uniform1f(u.uHover, REDUCE_MOTION ? 0.4 : state.hover);
-    gl.uniform2f(u.uMouse, sm.x, sm.y);
-    gl.drawArrays(gl.TRIANGLES, 0, 3);
-  }
-  if (REDUCE_MOTION) { draw(0); return; }
-  const loop = (now) => { if (visible && !document.hidden) draw(now); requestAnimationFrame(loop); };
-  requestAnimationFrame(loop);
 })();
 
-/* ---------- footer year + London clock ---------- */
+/* ---------- footer year ---------- */
 $('#year').textContent = new Date().getFullYear();
-(function clock() {
-  const c = $('#clock');
-  if (!c) return;
-  const fmt = new Intl.DateTimeFormat('en-GB', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/London' });
-  const tick = () => { c.textContent = 'LDN ' + fmt.format(new Date()); };
-  tick(); setInterval(tick, 15000);
-})();
 
-/* ---------- custom cursor ---------- */
-(function cursor() {
-  if (!FINE_POINTER || REDUCE_MOTION) return;
-  const root = $('.cursor'), dot = $('.cursor-dot'), ring = $('.cursor-ring');
-  if (!root) return;
-  document.body.classList.add('has-cursor');
-  const r = { x: MOUSE.x, y: MOUSE.y };
-  const loop = () => {
-    r.x = lerp(r.x, MOUSE.x, 0.18); r.y = lerp(r.y, MOUSE.y, 0.18);
-    dot.style.transform = `translate3d(${MOUSE.x}px, ${MOUSE.y}px, 0)`;
-    ring.style.transform = `translate3d(${r.x}px, ${r.y}px, 0)`;
-    requestAnimationFrame(loop);
-  };
-  loop();
-  document.addEventListener('pointerover', (e) => {
-    root.classList.toggle('is-hover', !!e.target.closest('a, button, [data-tilt]'));
-  });
-  document.addEventListener('pointerleave', () => { dot.style.opacity = ring.style.opacity = 0; });
-  document.addEventListener('pointerenter', () => { dot.style.opacity = ring.style.opacity = 1; });
-})();
-
-/* ---------- hero entrance: split letters + rise ---------- */
+/* ---------- hero entrance ---------- */
 (function heroIn() {
-  const splits = $$('.split');
-  splits.forEach(s => {
-    const txt = s.textContent;
-    s.textContent = '';
-    s.setAttribute('aria-label', txt);
-    [...txt].forEach(ch => { const c = el('span', 'ch', ch); c.setAttribute('aria-hidden', 'true'); s.append(c); });
-  });
   if (REDUCE_MOTION) return;
-  const chars = $$('.split .ch');
-  const risers = $$('[data-rise]').filter(n => !n.classList.contains('hero-title'));
-  chars.forEach(c => { c.style.transform = 'translateY(110%) rotate(6deg)'; });
-  risers.forEach(n => { n.style.opacity = 0; n.style.transform = 'translateY(24px)'; });
+  const items = $$('[data-fade]');
+  items.forEach(n => { n.style.opacity = 0; n.style.transform = 'translateY(14px)'; });
   requestAnimationFrame(() => setTimeout(() => {
-    chars.forEach((c, i) => {
-      c.style.transition = `transform 1.1s var(--ease) ${0.05 + i * 0.04}s`;
-      c.style.transform = 'none';
-    });
-    risers.forEach((n, i) => {
-      n.style.transition = `opacity .9s var(--ease) ${0.35 + i * 0.1}s, transform .9s var(--ease) ${0.35 + i * 0.1}s`;
+    items.forEach((n, i) => {
+      n.style.transition = `opacity 1s var(--ease) ${i * 0.1}s, transform 1s var(--ease) ${i * 0.1}s`;
       n.style.opacity = 1; n.style.transform = 'none';
     });
   }, 60));
 })();
 
-/* ---------- rotating word ---------- */
-(function rotator() {
-  const rot = $('#rotator');
-  if (!rot || REDUCE_MOTION) return;
-  const words = ['security', 'automation', 'governance', 'intelligence'];
-  let i = 0;
-  setInterval(() => {
-    i = (i + 1) % words.length;
-    rot.style.opacity = 0; rot.style.transform = 'translateY(-10px)'; rot.style.filter = 'blur(6px)';
-    setTimeout(() => {
-      rot.textContent = words[i];
-      rot.style.transition = 'none';
-      rot.style.transform = 'translateY(10px)';
-      requestAnimationFrame(() => {
-        rot.style.transition = '';
-        rot.style.opacity = 1; rot.style.transform = 'none'; rot.style.filter = 'none';
-      });
-    }, 320);
-  }, 2600);
-})();
-
-/* ---------- portfolio cases (from portfolio.js) ---------- */
+/* ---------- selected work (data in portfolio.js) ---------- */
 (function cases() {
   const mount = $('#work-list');
   if (!mount || typeof CASE_STUDIES === 'undefined') return;
-  const statusClass = (s) => {
+  const tone = (s) => {
     const v = s.toLowerCase();
     if (/ready|down|on track/.test(v)) return 'ok';
     if (/high|critical|fail/.test(v)) return 'bad';
@@ -343,91 +247,55 @@ $('#year').textContent = new Date().getFullYear();
     const art = el('article', 'case reveal' + (i % 2 ? ' case-flip' : ''));
 
     const body = el('div', 'case-body');
-    body.append(el('p', 'case-meta mono', `0${i + 1} — ${cs.sampleType.replace(/^Generic sample · /, '')}`));
+    body.append(el('p', 'case-meta', cs.sampleType.replace(/^Generic sample · /, '')));
     body.append(el('h3', 'case-title', cs.title));
-    const blocks = el('div', 'case-blocks');
     [['Scenario', cs.scenario], ['Approach', cs.approach], ['What it shows', cs.whatItShows]].forEach(([label, text]) => {
       const b = el('div', 'case-block');
-      b.append(el('h4', 'mono', label), el('p', null, text));
-      blocks.append(b);
+      b.append(el('h4', null, label), el('p', null, text));
+      body.append(b);
     });
-    body.append(blocks);
-    const tags = el('ul', 'case-tags mono');
+    const tags = el('ul', 'case-tags');
     cs.tags.forEach(t => tags.append(el('li', null, t)));
     body.append(tags);
-    const a = el('a', 'btn btn-ghost');
-    a.href = cs.sampleUrl;
-    a.setAttribute('data-magnetic', '');
-    a.append(el('span', null, cs.ctaLabel || 'Open sample'));
-    const arrow = el('i', null, '↗'); arrow.setAttribute('aria-hidden', 'true');
-    a.append(arrow);
-    body.append(a);
+    const link = el('a', 'case-link', cs.ctaLabel || 'Open sample');
+    link.href = cs.sampleUrl;
+    const arrow = el('span', null, '→'); arrow.setAttribute('aria-hidden', 'true');
+    link.append(arrow);
+    body.append(link);
 
     const media = el('div', 'case-media');
-    media.append(el('p', 'case-kicker mono', 'Sample project · fictional data'));
-    const term = el('div', 'term');
-    const bar = el('div', 'term-bar');
-    bar.append(el('i'), el('i'), el('i'), el('span', null, cs.id + '.report'));
-    term.append(bar);
+    const head = el('div', 'rep-head');
+    head.append(el('span', null, 'Sample report'), el('span', null, 'Fictional data'));
+    media.append(head, el('p', 'rep-title', cs.title));
+    const table = el('table', 'rep-table');
+    const thead = el('thead'), hr = el('tr');
+    ['Ref', 'Area', 'Status'].forEach(h => { const th = el('th', null, h); th.scope = 'col'; hr.append(th); });
+    thead.append(hr);
+    const tbody = el('tbody');
     (cs.statusRows || []).forEach(row => {
-      const line = el('div', 'term-row');
-      line.append(el('span', null, row[0]), el('span', null, row[1]), el('span', 'status ' + statusClass(row[2]), row[2]));
-      term.append(line);
+      const tr = el('tr');
+      const s = el('td'); s.append(el('span', 'pill ' + tone(row[2]), row[2]));
+      tr.append(el('td', null, row[0]), el('td', null, row[1]), s);
+      tbody.append(tr);
     });
-    media.append(term);
+    table.append(thead, tbody);
+    media.append(table, el('p', 'rep-foot', 'Illustrative extract from the full sample.'));
 
     art.append(body, media);
     mount.append(art);
   });
 })();
 
-/* ---------- magnetic buttons ---------- */
-(function magnetic() {
-  if (!FINE_POINTER || REDUCE_MOTION) return;
-  $$('[data-magnetic]').forEach(btn => {
-    btn.style.transition = 'transform .35s var(--ease), color .4s var(--ease), border-color .4s';
-    btn.addEventListener('pointermove', (e) => {
-      const r = btn.getBoundingClientRect();
-      const dx = (e.clientX - (r.left + r.width / 2)) * 0.25;
-      const dy = (e.clientY - (r.top + r.height / 2)) * 0.35;
-      btn.style.transform = `translate(${dx}px, ${dy}px)`;
-    });
-    btn.addEventListener('pointerleave', () => { btn.style.transform = 'none'; });
-  });
-})();
-
-/* ---------- card spotlight + portrait tilt ---------- */
-(function spot() {
-  $$('[data-spot]').forEach(card => {
-    card.addEventListener('pointermove', (e) => {
-      const r = card.getBoundingClientRect();
-      card.style.setProperty('--mx', (e.clientX - r.left) + 'px');
-      card.style.setProperty('--my', (e.clientY - r.top) + 'px');
-    });
-  });
-  if (!FINE_POINTER || REDUCE_MOTION) return;
-  const fig = $('[data-tilt]');
-  const frame = fig && $('.portrait-frame', fig);
-  if (!frame) return;
-  fig.addEventListener('pointermove', (e) => {
-    const r = fig.getBoundingClientRect();
-    const x = (e.clientX - r.left) / r.width - 0.5;
-    const y = (e.clientY - r.top) / r.height - 0.5;
-    frame.style.transform = `rotateY(${x * 10}deg) rotateX(${-y * 10}deg) scale(1.01)`;
-  });
-  fig.addEventListener('pointerleave', () => { frame.style.transform = 'none'; });
-})();
-
 /* ---------- reveal + count-up ---------- */
 (function reveal() {
   const items = $$('.reveal');
-  const runCount = (n) => {
+  const count = (n) => {
     const target = +n.dataset.count, pre = n.dataset.prefix || '', suf = n.dataset.suffix || '';
-    if (REDUCE_MOTION) { n.textContent = pre + target + suf; return; }
-    const dur = 1600, start = performance.now();
+    if (REDUCE_MOTION) return;
+    const start = performance.now(), dur = 1400;
     const tick = (now) => {
       const p = Math.min(1, (now - start) / dur);
-      n.textContent = pre + Math.round(target * (1 - Math.pow(1 - p, 4))) + suf;
+      n.textContent = pre + Math.round(target * (1 - Math.pow(1 - p, 3))) + suf;
       if (p < 1) requestAnimationFrame(tick);
     };
     requestAnimationFrame(tick);
@@ -438,19 +306,20 @@ $('#year').textContent = new Date().getFullYear();
       if (!en.isIntersecting) return;
       en.target.classList.add('in');
       const c = en.target.querySelector('[data-count]');
-      if (c && !c._done) { c._done = true; runCount(c); }
+      if (c && !c._done) { c._done = true; count(c); }
       io.unobserve(en.target);
     });
-  }, { threshold: 0.15, rootMargin: '0px 0px -5% 0px' });
+  }, { threshold: 0.15 });
   items.forEach(i => io.observe(i));
 })();
 
-/* ---------- nav: progress, active link, mobile menu ---------- */
+/* ---------- nav: scrolled state, active link, mobile menu ---------- */
 (function nav() {
-  const bar = $('#scroll-progress');
+  const navEl = $('#nav');
+  const hero = $('.hero');
   const onScroll = () => {
-    const h = document.documentElement.scrollHeight - innerHeight;
-    if (bar) bar.style.width = (h > 0 ? (scrollY / h) * 100 : 0) + '%';
+    const limit = hero ? hero.offsetHeight - 80 : 40;
+    navEl.classList.toggle('scrolled', scrollY > limit);
   };
   addEventListener('scroll', onScroll, { passive: true });
   onScroll();
@@ -470,6 +339,7 @@ $('#year').textContent = new Date().getFullYear();
   if (!toggle || !menu) return;
   const set = (open) => {
     menu.classList.toggle('open', open);
+    navEl.classList.toggle('menu-open', open);
     menu.setAttribute('aria-hidden', String(!open));
     toggle.setAttribute('aria-expanded', String(open));
     toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');

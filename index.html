@@ -4,51 +4,47 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Zain Abedeen is a Cyber Security and Data Automation specialist in London delivering secure cloud deployments, enterprise reporting automation, and leadership-ready analytics across AWS, Power Platform, and Python.">
-  <meta name="theme-color" content="#05060a">
+  <meta name="theme-color" content="#0a1a2f">
   <meta property="og:title" content="Zain Abedeen — Cyber Security &amp; Data Automation">
-  <meta property="og:description" content="Security that reads like data. Governance, automation and analytics for confident decisions.">
+  <meta property="og:description" content="Security governance and data automation that leadership can rely on.">
   <meta property="og:image" content="https://zainabedeen.dev/assets/zain.jpg">
   <title>Zain Abedeen — Cyber Security &amp; Data Automation Specialist</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="site.css">
 </head>
 <body>
 
   <a href="#main-content" class="skip-link">Skip to main content</a>
 
-  <!-- motion shader backdrop -->
-  <canvas id="bg-shader" aria-hidden="true"></canvas>
-  <div class="bg-fallback" aria-hidden="true"></div>
-  <div class="grain" aria-hidden="true"></div>
-  <div class="cursor" aria-hidden="true"><span class="cursor-dot"></span><span class="cursor-ring"></span></div>
-
   <header class="nav" id="nav">
-    <a href="#top" class="wordmark" aria-label="Zain Abedeen, home">
-      <span class="wm-mark">ZA</span><span class="wm-text">Zain Abedeen</span>
-    </a>
-    <nav aria-label="Primary navigation">
-      <ul class="nav-links">
-        <li><a href="#expertise" class="nav-link" data-section="expertise">Expertise</a></li>
-        <li><a href="#samples" class="nav-link" data-section="samples">Work</a></li>
-        <li><a href="#background" class="nav-link" data-section="background">Background</a></li>
-      </ul>
-    </nav>
-    <a href="#contact" class="nav-cta" data-magnetic><span class="pulse"></span>Available</a>
-    <button class="menu-toggle" id="menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
-      <span></span><span></span>
-    </button>
-    <div class="nav-progress" id="scroll-progress" aria-hidden="true"></div>
+    <div class="wrap nav-inner">
+      <a href="#top" class="wordmark">
+        <span class="wm-name">Zain Abedeen</span>
+        <span class="wm-role">Cyber Security &amp; Data Automation</span>
+      </a>
+      <nav aria-label="Primary navigation">
+        <ul class="nav-links">
+          <li><a href="#expertise" class="nav-link" data-section="expertise">Expertise</a></li>
+          <li><a href="#work" class="nav-link" data-section="work">Selected work</a></li>
+          <li><a href="#experience" class="nav-link" data-section="experience">Experience</a></li>
+          <li><a href="#contact" class="nav-btn">Contact</a></li>
+        </ul>
+      </nav>
+      <button class="menu-toggle" id="menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
+        <span></span><span></span>
+      </button>
+    </div>
   </header>
 
   <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
     <ul>
-      <li><a href="#expertise" class="mob-link">Expertise</a></li>
-      <li><a href="#samples" class="mob-link">Work</a></li>
-      <li><a href="#background" class="mob-link">Background</a></li>
-      <li><a href="#contact" class="mob-link">Contact</a></li>
+      <li><a href="#expertise">Expertise</a></li>
+      <li><a href="#work">Selected work</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#contact">Contact</a></li>
     </ul>
   </div>
 
@@ -56,180 +52,168 @@
 
     <!-- HERO -->
     <section class="hero" id="top">
-      <div class="hero-grid">
+      <canvas id="hero-shader" aria-hidden="true"></canvas>
+      <div class="wrap hero-grid">
         <div class="hero-copy">
-          <p class="eyebrow mono" data-rise><span class="dot"></span>Cyber Security · Data Automation · London</p>
-          <h1 class="hero-title" data-rise>
-            <span class="line"><span class="split">Zain</span></span>
-            <span class="line"><span class="split">Abedeen</span></span>
-          </h1>
-          <p class="hero-tag" data-rise>Where <em><span id="rotator">security</span></em> meets data.</p>
-          <p class="hero-lead" data-rise>I build secure cloud deployments, enterprise reporting automation and leadership-ready analytics across AWS, Power Platform and Python, grounded in ISO&nbsp;27001, NIST&nbsp;RMF and CIS Controls.</p>
-          <div class="hero-ctas" data-rise>
-            <a href="#samples" class="btn btn-primary" data-magnetic><span>See the work</span><i aria-hidden="true">→</i></a>
-            <a href="#contact" class="btn btn-ghost" data-magnetic><span>Get in touch</span></a>
+          <p class="kicker" data-fade>Cyber Security · Data Automation · London</p>
+          <h1 class="hero-title" data-fade>Security governance and data automation that leadership can rely on.</h1>
+          <p class="hero-lead" data-fade>I help organisations meet ISO&nbsp;27001, NIST&nbsp;RMF and CIS expectations, secure their AWS and Microsoft&nbsp;365 estates, and turn operational data into clear, decision-ready reporting.</p>
+          <div class="hero-ctas" data-fade>
+            <a href="#work" class="btn btn-light">View selected work</a>
+            <a href="#contact" class="btn btn-outline">Get in touch</a>
           </div>
         </div>
 
-        <figure class="portrait" data-rise data-tilt>
+        <figure class="portrait" data-fade>
           <div class="portrait-frame">
             <canvas id="portrait-gl" aria-hidden="true"></canvas>
             <img id="portrait-img" src="assets/zain.jpg" alt="Portrait of Zain Abedeen" width="900" height="1125" decoding="async">
             <span class="portrait-monogram" aria-hidden="true">ZA</span>
-            <span class="corner tl" aria-hidden="true"></span><span class="corner tr" aria-hidden="true"></span>
-            <span class="corner bl" aria-hidden="true"></span><span class="corner br" aria-hidden="true"></span>
-            <span class="scanline" aria-hidden="true"></span>
           </div>
-          <figcaption class="mono">
-            <span>MSc Cyber Security · Distinction</span>
-            <span id="clock" aria-label="Local time in London">LDN --:--</span>
+          <figcaption>
+            <span class="pc-name">Zain Abedeen</span>
+            <span class="pc-cred">MSc Cyber Security, Distinction · University of Surrey</span>
           </figcaption>
         </figure>
       </div>
 
-      <a href="#marquee" class="scroll-cue mono" aria-label="Scroll to content"><span>Scroll</span><i></i></a>
-    </section>
-
-    <!-- MARQUEE -->
-    <div class="marquee" id="marquee" aria-label="Core tools and frameworks">
-      <div class="marquee-track">
-        <ul>
-          <li>ISO 27001</li><li class="star" aria-hidden="true">✦</li>
-          <li>AWS</li><li class="star" aria-hidden="true">✦</li>
-          <li><em>Power Platform</em></li><li class="star" aria-hidden="true">✦</li>
-          <li>NIST RMF</li><li class="star" aria-hidden="true">✦</li>
-          <li>Python</li><li class="star" aria-hidden="true">✦</li>
-          <li><em>CIS Controls</em></li><li class="star" aria-hidden="true">✦</li>
-          <li>Power BI</li><li class="star" aria-hidden="true">✦</li>
-          <li>SOC 2</li><li class="star" aria-hidden="true">✦</li>
-          <li><em>DevSecOps</em></li><li class="star" aria-hidden="true">✦</li>
-        </ul>
-        <ul aria-hidden="true">
-          <li>ISO 27001</li><li class="star">✦</li>
-          <li>AWS</li><li class="star">✦</li>
-          <li><em>Power Platform</em></li><li class="star">✦</li>
-          <li>NIST RMF</li><li class="star">✦</li>
-          <li>Python</li><li class="star">✦</li>
-          <li><em>CIS Controls</em></li><li class="star">✦</li>
-          <li>Power BI</li><li class="star">✦</li>
-          <li>SOC 2</li><li class="star">✦</li>
-          <li><em>DevSecOps</em></li><li class="star">✦</li>
+      <div class="wrap">
+        <ul class="cred-bar" aria-label="Frameworks and platforms">
+          <li>ISO 27001</li><li>NIST RMF</li><li>CIS Controls</li><li>SOC 2</li><li>AWS</li><li>Microsoft 365</li><li>Power Platform</li><li>Python</li>
         </ul>
       </div>
-    </div>
+    </section>
 
-    <!-- STATS -->
-    <section class="stats" aria-label="Impact highlights">
-      <dl class="stats-grid">
-        <div class="stat reveal">
-          <dt><span data-count="100" data-suffix="+">100+</span></dt>
-          <dd>user environments supported through secure operational delivery</dd>
-        </div>
-        <div class="stat reveal" style="--d:.08s">
-          <dt><span data-count="80" data-suffix="%">80%</span></dt>
-          <dd>faster delivery enabled by controlled data automation</dd>
-        </div>
-        <div class="stat reveal" style="--d:.16s">
-          <dt><span data-count="20" data-prefix="$" data-suffix="K">$20K</span></dt>
-          <dd>annual cloud savings from data-led governance</dd>
-        </div>
-        <div class="stat reveal" style="--d:.24s">
-          <dt><span>4</span><small>yrs</small></dt>
-          <dd>across data science, consulting and DevSecOps in the US &amp; UK</dd>
-        </div>
-      </dl>
+    <!-- IMPACT -->
+    <section class="impact" aria-label="Impact highlights">
+      <div class="wrap">
+        <dl class="impact-grid">
+          <div class="stat reveal">
+            <dt><span data-count="80" data-suffix="%">80%</span></dt>
+            <dd>Faster reporting delivery through controlled data automation</dd>
+          </div>
+          <div class="stat reveal">
+            <dt><span data-count="20" data-prefix="$" data-suffix="K">$20K</span></dt>
+            <dd>Annual cloud savings achieved through data-led governance</dd>
+          </div>
+          <div class="stat reveal">
+            <dt><span data-count="100" data-suffix="+">100+</span></dt>
+            <dd>User environments supported through secure operational delivery</dd>
+          </div>
+          <div class="stat reveal">
+            <dt><span>US &amp; UK</span></dt>
+            <dd>Client delivery across consulting, infrastructure and DevSecOps</dd>
+          </div>
+        </dl>
+      </div>
     </section>
 
     <!-- EXPERTISE -->
     <section class="section" id="expertise">
-      <header class="section-head reveal">
-        <span class="mono section-no">( 01 )</span>
-        <h2 class="section-title">What I <em>do</em></h2>
-      </header>
-      <div class="cards">
-        <article class="card reveal" data-spot>
-          <span class="mono card-no">01</span>
-          <h3>Cyber Security <em>&amp;</em> Compliance</h3>
-          <p>Security governance, control mapping, audit evidence tracking, cloud identity reviews and reporting for ISO 27001, SOC 2, NIST RMF and CIS Controls.</p>
-          <ul class="chips mono"><li>GRC</li><li>IAM</li><li>Audit</li></ul>
-        </article>
-        <article class="card reveal" style="--d:.08s" data-spot>
-          <span class="mono card-no">02</span>
-          <h3>Data Automation <em>&amp;</em> Analytics</h3>
-          <p>Leadership dashboards, Python analysis, SQL models, KPI design and enterprise reporting automation that improves visibility into risk, performance and delivery.</p>
-          <ul class="chips mono"><li>Python</li><li>SQL</li><li>Power BI</li></ul>
-        </article>
-        <article class="card reveal" style="--d:.16s" data-spot>
-          <span class="mono card-no">03</span>
-          <h3>Automation <em>&amp;</em> Cloud Delivery</h3>
-          <p>Power Automate, Microsoft 365 workflows, API integrations, AWS deployments and repeatable operating patterns that cut manual effort without weakening governance.</p>
-          <ul class="chips mono"><li>AWS</li><li>M365</li><li>APIs</li></ul>
-        </article>
+      <div class="wrap split">
+        <header class="split-head reveal">
+          <p class="label">Expertise</p>
+          <h2 class="h2">Three disciplines, one outcome: confident decisions.</h2>
+          <p class="muted">Security provides assurance, automation removes friction, and analytics gives leaders a clear view of risk and performance.</p>
+        </header>
+        <ol class="services">
+          <li class="service reveal">
+            <span class="svc-no">01</span>
+            <div>
+              <h3>Cyber Security &amp; Compliance</h3>
+              <p>Security governance, control mapping, audit evidence tracking, cloud identity reviews and reporting aligned to ISO 27001, SOC 2, NIST RMF and CIS Controls.</p>
+            </div>
+          </li>
+          <li class="service reveal">
+            <span class="svc-no">02</span>
+            <div>
+              <h3>Data Automation &amp; Analytics</h3>
+              <p>Leadership dashboards, Python analysis, SQL models, KPI design and enterprise reporting automation that improve visibility into risk, performance and delivery.</p>
+            </div>
+          </li>
+          <li class="service reveal">
+            <span class="svc-no">03</span>
+            <div>
+              <h3>Automation &amp; Cloud Delivery</h3>
+              <p>Power Automate, Microsoft 365 workflows, API integrations, AWS deployments and repeatable operating patterns that reduce manual effort while maintaining governance.</p>
+            </div>
+          </li>
+        </ol>
       </div>
     </section>
 
     <!-- WORK -->
-    <section class="section" id="samples">
-      <header class="section-head reveal">
-        <span class="mono section-no">( 02 )</span>
-        <h2 class="section-title">Selected <em>work</em></h2>
-      </header>
-      <p class="section-lead reveal">Fictional reports and dashboards that show how I deliver: define the risk context, structure the evidence, surface priorities for leadership, and make the next actions accountable.</p>
-      <div id="work-list" class="work-list">
-        <noscript><p>Samples need JavaScript to display. Open them directly from the <a href="samples/compliance-evidence-pack.html">samples folder</a>.</p></noscript>
+    <section class="section section-tint" id="work">
+      <div class="wrap">
+        <header class="section-head reveal">
+          <p class="label">Selected work</p>
+          <h2 class="h2">How I deliver, demonstrated.</h2>
+          <p class="muted">Fictional reports and dashboards that show my approach: define the risk context, structure the evidence, surface priorities for leadership, and assign accountable next actions.</p>
+        </header>
+        <div id="work-list" class="work-list">
+          <noscript><p>Samples need JavaScript to display. Open them directly: <a href="samples/compliance-evidence-pack.html">compliance evidence report</a>, <a href="samples/cloud-security-review.html">cloud review</a>, <a href="samples/security-metrics-dashboard.html">security dashboard</a>.</p></noscript>
+        </div>
       </div>
     </section>
 
-    <!-- BACKGROUND -->
-    <section class="section" id="background">
-      <header class="section-head reveal">
-        <span class="mono section-no">( 03 )</span>
-        <h2 class="section-title">Back<em>ground</em></h2>
-      </header>
-
-      <div class="about">
-        <p class="about-big reveal">My work began in data-driven operational improvement and moved into <em>Cyber Security</em> to strengthen governance, resilience and trust.</p>
-        <div class="about-cols reveal" style="--d:.08s">
-          <p>An MSc at the University of Surrey (NCSC-certified) gave me formal security depth. Client delivery across US and UK environments shaped a practical, outcomes-first way of working.</p>
-          <p>The thread is consistent: security for control assurance, automation for operational clarity, and analytics for confident leadership decisions. I build things that reduce uncertainty, from audit-ready evidence packs to workflows that remove repetitive reporting.</p>
+    <!-- EXPERIENCE -->
+    <section class="section" id="experience">
+      <div class="wrap split">
+        <header class="split-head reveal">
+          <p class="label">Experience</p>
+          <h2 class="h2">A data foundation, strengthened by security.</h2>
+          <p class="muted">My career began in data-driven operational improvement and moved into Cyber Security to strengthen governance, resilience and trust. Client delivery across US and UK environments shaped a practical, outcomes-first way of working.</p>
+        </header>
+        <div>
+          <ol class="roles">
+            <li class="role reveal"><span class="r-year">2024 – Present</span><div><h3>DevSecOps Engineer</h3><p>Oppen Group LLC</p></div></li>
+            <li class="role reveal"><span class="r-year">2024 – 2025</span><div><h3>M365 Data &amp; Automation Consultant</h3><p>EFI Global</p></div></li>
+            <li class="role reveal"><span class="r-year">2023 – 2024</span><div><h3>Data Consultant</h3><p>Clearwater</p></div></li>
+            <li class="role reveal"><span class="r-year">2022 – 2023</span><div><h3>Data Scientist</h3><p>Unison Infrastructure</p></div></li>
+            <li class="role reveal"><span class="r-year">2022</span><div><h3>Teaching Assistant</h3><p>LUMS</p></div></li>
+          </ol>
+          <p class="label sub-label reveal">Education</p>
+          <ol class="roles">
+            <li class="role reveal"><span class="r-year">2025 – 2026</span><div><h3>MSc Cyber Security, Distinction</h3><p>University of Surrey · NCSC-certified</p></div></li>
+            <li class="role reveal"><span class="r-year">2019 – 2023</span><div><h3>BSc Management Science with Computer Science</h3><p>LUMS</p></div></li>
+          </ol>
         </div>
       </div>
 
-      <ol class="timeline">
-        <li class="tl-row reveal"><span class="mono tl-year">2024 — now</span><span class="tl-role">DevSecOps Engineer</span><span class="tl-org">Oppen Group LLC</span></li>
-        <li class="tl-row reveal"><span class="mono tl-year">2024 — 25</span><span class="tl-role">M365 Data &amp; Automation Consultant</span><span class="tl-org">EFI Global</span></li>
-        <li class="tl-row reveal"><span class="mono tl-year">2023 — 24</span><span class="tl-role">Data Consultant</span><span class="tl-org">Clearwater</span></li>
-        <li class="tl-row reveal"><span class="mono tl-year">2022 — 23</span><span class="tl-role">Data Scientist</span><span class="tl-org">Unison Infrastructure</span></li>
-        <li class="tl-row reveal"><span class="mono tl-year">2022</span><span class="tl-role">Teaching Assistant</span><span class="tl-org">LUMS</span></li>
-        <li class="tl-row tl-edu reveal"><span class="mono tl-year">2025 — 26</span><span class="tl-role">MSc Cyber Security, <em>Distinction</em></span><span class="tl-org">University of Surrey</span></li>
-        <li class="tl-row tl-edu reveal"><span class="mono tl-year">2019 — 23</span><span class="tl-role">BSc Management Science &amp; Computer Science</span><span class="tl-org">LUMS</span></li>
-      </ol>
-
-      <div class="capmap reveal">
-        <div><h4 class="mono">Security</h4><p>ISO 27001, SOC 2, NIST RMF, CIS Controls, evidence registers, audit readiness, IAM, M365 security, cloud governance</p></div>
-        <div><h4 class="mono">Data</h4><p>Python, Pandas, GeoPandas, scikit-learn, SQL, Power BI, Power Query, KPI design, executive reporting</p></div>
-        <div><h4 class="mono">Automation</h4><p>Power Platform, Power Automate, REST APIs, Microsoft Lists, Teams workflows, AWS CloudFormation</p></div>
+      <div class="wrap">
+        <div class="capabilities reveal">
+          <div><h4>Security</h4><p>ISO 27001, SOC 2, NIST RMF, CIS Controls, evidence registers, audit readiness, IAM, Microsoft 365 security, cloud governance</p></div>
+          <div><h4>Data</h4><p>Python, Pandas, GeoPandas, scikit-learn, SQL, Power BI, Power Query, KPI design, executive reporting</p></div>
+          <div><h4>Automation</h4><p>Power Platform, Power Automate, REST APIs, Microsoft Lists, Teams workflows, AWS CloudFormation</p></div>
+        </div>
       </div>
     </section>
 
     <!-- CONTACT -->
     <section class="contact" id="contact">
-      <p class="mono eyebrow reveal"><span class="dot"></span>( 04 ) Open to roles &amp; projects</p>
-      <h2 class="contact-title reveal">
-        <a href="mailto:zain.abedeen@hotmail.com" class="contact-link" data-magnetic-soft>Let’s <em>talk.</em></a>
-      </h2>
-      <div class="contact-row reveal">
-        <a href="mailto:zain.abedeen@hotmail.com" class="btn btn-primary" data-magnetic><span>zain.abedeen@hotmail.com</span><i aria-hidden="true">↗</i></a>
-        <a href="https://linkedin.com/in/zainabedeen" target="_blank" rel="noreferrer" class="btn btn-ghost" data-magnetic><span>LinkedIn</span><i aria-hidden="true">↗</i></a>
+      <canvas id="contact-shader" aria-hidden="true"></canvas>
+      <div class="wrap contact-inner">
+        <div class="reveal">
+          <p class="kicker">Contact</p>
+          <h2 class="contact-title">Let’s discuss your security and data priorities.</h2>
+          <p class="contact-lead">Open to Cyber Security, GRC, Data Automation and cloud governance roles and engagements in London and remotely.</p>
+        </div>
+        <ul class="contact-list reveal">
+          <li><span>Email</span><a href="mailto:zain.abedeen@hotmail.com">zain.abedeen@hotmail.com</a></li>
+          <li><span>LinkedIn</span><a href="https://linkedin.com/in/zainabedeen" target="_blank" rel="noreferrer">linkedin.com/in/zainabedeen</a></li>
+          <li><span>Phone</span><a href="tel:+447448270585">+44 7448 270585</a></li>
+          <li><span>Location</span><p>London, United Kingdom</p></li>
+        </ul>
       </div>
     </section>
 
   </main>
 
   <footer class="footer">
-    <span class="mono">© <span id="year"></span> Zain Abedeen</span>
-    <span class="mono">London, UK · <a href="tel:+447448270585">+44 7448 270585</a></span>
-    <span class="mono muted">Samples are fictional demonstrations</span>
+    <div class="wrap footer-inner">
+      <span>© <span id="year"></span> Zain Abedeen</span>
+      <span>Portfolio samples are fictional demonstrations.</span>
+    </div>
   </footer>
 
   <script src="portfolio.js"></script>
